@@ -1,0 +1,1634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeKids Hub | Learn Programming for Kids & Adults</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Login Modal -->
+    <div id="login-modal" class="fixed inset-0 z-50 hidden overflow-y-auto">
+        <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+                <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+            </div>
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+            <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <div class="flex justify-end">
+                        <button onclick="hideModal('login-modal')" class="text-gray-400 hover:text-gray-500 focus:outline-none">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="sm:flex sm:items-start">
+                        <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
+                            <h3 class="text-2xl leading-6 font-bold text-gray-900 mb-6">Login to Your Account</h3>
+                            <div class="mt-2">
+                                <form id="login-form" class="space-y-4">
+                                    <div>
+                                        <label for="login-email" class="block text-sm font-medium text-gray-700">Email Address</label>
+                                        <input type="email" id="login-email" required class="mt-1 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                    </div>
+                                    <div>
+                                        <label for="login-password" class="block text-sm font-medium text-gray-700">Password</label>
+                                        <input type="password" id="login-password" required class="mt-1 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center">
+                                            <input id="remember-me" name="remember-me" type="checkbox" class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded">
+                                            <label for="remember-me" class="ml-2 block text-sm text-gray-700">Remember me</label>
+                                        </div>
+                                        <div class="text-sm">
+                                            <a href="#" class="font-medium text-primary hover:text-secondary">Forgot password?</a>
+                                        </div>
+                                    </div>
+                                    <div class="pt-2">
+                                        <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                                            Sign In
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                    <p class="text-sm text-gray-500 w-full text-center">
+                        Don't have an account? <button onclick="showModal('register-modal')" class="font-medium text-primary hover:text-secondary">Sign up now</button>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div id="register-modal" class="fixed inset-0 z-50 hidden overflow-y-auto">
+        <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+                <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+            </div>
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+            <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <div class="flex justify-end">
+                        <button onclick="hideModal('register-modal')" class="text-gray-400 hover:text-gray-500 focus:outline-none">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="sm:flex sm:items-start">
+                        <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
+                            <h3 class="text-2xl leading-6 font-bold text-gray-900 mb-6">Create Your Account</h3>
+                            <div class="mt-2">
+                                <form id="register-form" class="space-y-4">
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                            <label for="register-fname" class="block text-sm font-medium text-gray-700">First Name</label>
+                                            <input type="text" id="register-fname" required class="mt-1 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                        </div>
+                                        <div>
+                                            <label for="register-lname" class="block text-sm font-medium text-gray-700">Last Name</label>
+                                            <input type="text" id="register-lname" required class="mt-1 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label for="register-email" class="block text-sm font-medium text-gray-700">Email Address</label>
+                                        <input type="email" id="register-email" required class="mt-1 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                    </div>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                            <label for="register-password" class="block text-sm font-medium text-gray-700">Password</label>
+                                            <input type="password" id="register-password" required class="mt-1 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                        </div>
+                                        <div>
+                                            <label for="register-cpassword" class="block text-sm font-medium text-gray-700">Confirm Password</label>
+                                            <input type="password" id="register-cpassword" required class="mt-1 focus:ring-primary focus:border-primary block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input id="terms" name="terms" type="checkbox" required class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded">
+                                        <label for="terms" class="ml-2 block text-sm text-gray-700">
+                                            I agree to the <a href="#" class="text-primary hover:underline">Terms</a> and <a href="#" class="text-primary hover:underline">Privacy Policy</a>
+                                        </label>
+                                    </div>
+                                    <div class="pt-2">
+                                        <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                                            Create Account
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                    <p class="text-sm text-gray-500 w-full text-center">
+                        Already have an account? <button onclick="showModal('login-modal')" class="font-medium text-primary hover:text-secondary">Login here</button>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#1e40af',
+                        accent: '#f59e0b',
+                        dark: '#1f2937',
+                        light: '#f3f4f6'
+                    },
+                    fontFamily: {
+                        'sans': ['"Open Sans"', 'sans-serif'],
+                        'display': ['"Poppins"', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Poppins:wght@500;600;700&display=swap');
+        
+        .hero-gradient {
+            background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+        }
+        
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .nav-link::after {
+            content: '';
+            display: block;
+            width: 0;
+            height: 2px;
+            background: #f59e0b;
+            transition: width .3s;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+    </style>
+</head>
+<body class="font-sans bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center">
+                    <div class="flex items-center">
+                        <i class="fas fa-laptop-code text-3xl text-primary mr-2"></i>
+                        <span class="text-2xl font-display font-bold text-dark">CodeKids<span class="text-accent">Hub</span></span>
+                    </div>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="nav-link text-dark font-medium hover:text-primary transition">Home</a>
+                    <a href="#courses" class="nav-link text-dark font-medium hover:text-primary transition">Courses</a>
+                    <a href="#about" class="nav-link text-dark font-medium hover:text-primary transition">About</a>
+                    <a href="#testimonials" class="nav-link text-dark font-medium hover:text-primary transition">Success Stories</a>
+                    <a href="#contact" class="nav-link text-dark font-medium hover:text-primary transition">Contact</a>
+                    
+                    <div class="flex space-x-4">
+                        <a href="#login" class="px-4 py-2 border border-primary text-primary font-medium rounded-md hover:bg-primary hover:text-white transition">Login</a>
+                        <a href="#signup" class="px-4 py-2 bg-primary text-white font-medium rounded-md hover:bg-secondary transition">Sign Up</a>
+                    </div>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-button" class="text-gray-500 hover:text-gray-900 focus:outline-none">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden hidden bg-white pb-4 px-4 shadow-md">
+            <div class="flex flex-col space-y-3">
+                <a href="#home" class="text-dark font-medium hover:text-primary transition">Home</a>
+                <a href="#courses" class="text-dark font-medium hover:text-primary transition">Courses</a>
+                <a href="#about" class="text-dark font-medium hover:text-primary transition">About</a>
+                <a href="#testimonials" class="text-dark font-medium hover:text-primary transition">Success Stories</a>
+                <a href="#contact" class="text-dark font-medium hover:text-primary transition">Contact</a>
+                
+                <div class="flex flex-col space-y-2 pt-2">
+                    <a href="#login" class="px-4 py-2 border border-primary text-primary font-medium rounded-md hover:bg-primary hover:text-white transition text-center">Login</a>
+                    <a href="#signup" class="px-4 py-2 bg-primary text-white font-medium rounded-md hover:bg-secondary transition text-center">Sign Up</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section id="home" class="hero-gradient text-white py-16 md:py-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 mb-12 md:mb-0">
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold font-display leading-tight mb-6">Unlock the Future with <span class="text-accent">Code</span></h1>
+                <p class="text-xl mb-8 max-w-lg">From young minds to career professionals, we provide the perfect path to master programming and keep up with tech trends.</p>
+                <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                    <a href="#" class="px-6 py-3 bg-accent text-dark font-bold rounded-md hover:bg-yellow-500 transition text-center">Start Learning Now</a>
+                    <a href="#" class="px-6 py-3 border-2 border-white text-white font-bold rounded-md hover:bg-white hover:text-primary transition text-center">Explore Courses</a>
+                </div>
+            </div>
+            <div class="md:w-1/2 flex justify-center">
+                <div class="relative">
+                    <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80" alt="Kids coding" class="rounded-lg shadow-2xl w-full max-w-md animate-float">
+                    <div class="absolute -bottom-6 -right-6 bg-accent p-4 rounded-lg shadow-lg hidden md:block">
+                        <div class="text-xl font-bold text-dark">5000+ Happy Learners</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Achievement Badges -->
+    <div class="bg-white py-6 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                <div class="p-4">
+                    <div class="text-4xl font-bold text-primary mb-2">
+                        <span class="counter" data-target="5874">0</span>+
+                    </div>
+                    <div class="text-gray-600 font-medium">Students Enrolled</div>
+                </div>
+                <div class="p-4">
+                    <div class="text-4xl font-bold text-primary mb-2">
+                        <span class="counter" data-target="72">0</span>+
+                    </div>
+                    <div class="text-gray-600 font-medium">Countries</div>
+                </div>
+                <div class="p-4">
+                    <div class="text-4xl font-bold text-primary mb-2">
+                        <span class="counter" data-target="96">0</span>%
+                    </div>
+                    <div class="text-gray-600 font-medium">Completion Rate</div>
+                </div>
+                <div class="p-4">
+                    <div class="text-4xl font-bold text-primary mb-2">
+                        <span class="counter" data-target="500">0</span>+
+                    </div>
+                    <div class="text-gray-600 font-medium">Projects Built</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-center font-display mb-4">Why Choose CodeKids<span class="text-accent">Hub</span>?</h2>
+            <p class="text-lg text-center text-gray-600 max-w-3xl mx-auto mb-12">We bridge the gap between playful learning for kids and professional development for adults.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-light p-6 rounded-lg shadow-sm hover:shadow-md transition">
+                    <div class="text-primary text-4xl mb-4">
+                        <i class="fas fa-child"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Kid-Friendly Approach</h3>
+                    <p class="text-gray-600">Gamified learning with colorful interfaces and characters makes coding fun and engaging for young minds.</p>
+                </div>
+                
+                <div class="bg-light p-6 rounded-lg shadow-sm hover:shadow-md transition">
+                    <div class="text-primary text-4xl mb-4">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Career Advancement</h3>
+                    <p class="text-gray-600">Industry-relevant courses with hands-on projects to boost your programming career to the next level.</p>
+                </div>
+                
+                <div class="bg-light p-6 rounded-lg shadow-sm hover:shadow-md transition">
+                    <div class="text-primary text-4xl mb-4">
+                        <i class="fas fa-project-diagram"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Project-Based Learning</h3>
+                    <p class="text-gray-600">Learn by building real projects that you can showcase in your portfolio or school assignments.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trending Tech Section -->
+    <section class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-center font-display mb-4">Trending <span class="text-accent">Technologies</span></h2>
+            <p class="text-lg text-center text-gray-600 max-w-3xl mx-auto mb-12">We keep our curriculum updated with the most in-demand technologies.</p>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow-sm text-center hover:shadow-md transition">
+                    <div class="text-5xl text-primary mb-4">
+                        <i class="fab fa-python"></i>
+                    </div>
+                    <h3 class="font-bold mb-2">Python</h3>
+                    <p class="text-sm text-gray-600">From kids to AI developers</p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow-sm text-center hover:shadow-md transition">
+                    <div class="text-5xl text-primary mb-4">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3 class="font-bold mb-2">AI/ML</h3>
+                    <p class="text-sm text-gray-600">Future-proof skills</p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow-sm text-center hover:shadow-md transition">
+                    <div class="text-5xl text-primary mb-4">
+                        <i class="fab fa-js"></i>
+                    </div>
+                    <h3 class="font-bold mb-2">JavaScript</h3>
+                    <p class="text-sm text-gray-600">Web development core</p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow-sm text-center hover:shadow-md transition">
+                    <div class="text-5xl text-primary mb-4">
+                        <i class="fas fa-cloud"></i>
+                    </div>
+                    <h3 class="font-bold mb-2">Cloud</h3>
+                    <p class="text-sm text-gray-600">AWS & Azure fundamentals</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Courses Section -->
+    <section id="courses" class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-center font-display mb-4">Our <span class="text-accent">Courses</span></h2>
+            <p class="text-lg text-center text-gray-600 max-w-3xl mx-auto mb-12">From beginner to advanced levels, we have something for every age and skill set.</p>
+            
+            <div class="flex flex-col sm:flex-row justify-between items-center mb-8 gap-4">
+                <div class="inline-flex rounded-md shadow-sm" role="group">
+                    <button id="kids-btn" class="filter-btn px-4 py-2 text-sm font-medium rounded-l-lg bg-primary text-white focus:outline-none">
+                        For Kids (5-14)
+                    </button>
+                    <button id="teens-btn" class="filter-btn px-4 py-2 text-sm font-medium bg-gray-200 text-dark focus:outline-none">
+                        For Teens (15-18)
+                    </button>
+                    <button id="adults-btn" class="filter-btn px-4 py-2 text-sm font-medium rounded-r-lg bg-gray-200 text-dark focus:outline-none">
+                        For Adults (18+)
+                    </button>
+                </div>
+                
+                <div class="relative w-full sm:w-auto">
+                    <select id="course-category" class="block w-full px-4 py-2 text-sm border-gray-300 rounded-md focus:ring-primary focus:border-primary">
+                        <option value="all">All Categories</option>
+                        <option value="game">Game Development</option>
+                        <option value="web">Web Development</option>
+                        <option value="ai">AI/ML</option>
+                        <option value="data">Data Science</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- Kids Courses -->
+            <div id="kids-courses" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="course-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
+                    <div class="h-48 bg-gradient-to-r from-blue-100 to-purple-100 flex items-center justify-center">
+                        <i class="fas fa-gamepad text-6xl text-primary"></i>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-2">
+                            <span class="bg-yellow-100 text-yellow-800 text-xs font-semibold px-2.5 py-0.5 rounded">Beginner</span>
+                            <span class="ml-2 text-xs text-gray-500">Age 5+</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Game Development with Scratch</h3>
+                        <p class="text-gray-600 mb-4">Create fun games while learning basic programming concepts through colorful blocks.</p>
+                        <div class="mt-4 flex items-center justify-between">
+                            <div class="flex items-center space-x-2">
+                                <div class="flex text-yellow-400 text-sm">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </div>
+                                <span class="text-xs text-gray-500">(42)</span>
+                            </div>
+                            <span class="font-bold text-primary">$49</span>
+                        </div>
+                        
+                        <div class="mt-2 flex justify-between items-end">
+                            <div class="flex items-center text-sm text-gray-500">
+                                <i class="far fa-clock mr-1"></i>
+                                <span>8 weeks</span>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="text-xs bg-green-100 text-green-800 px-2 py-0.5 rounded">Enrollment Open</span>
+                                <a href="#" class="text-sm font-medium text-primary hover:underline ml-2">Learn More →</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="course-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
+                    <div class="h-48 bg-gradient-to-r from-green-100 to-teal-100 flex items-center justify-center">
+                        <i class="fas fa-robot text-6xl text-primary"></i>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-2">
+                            <span class="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded">Intermediate</span>
+                            <span class="ml-2 text-xs text-gray-500">Age 8+</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Robotics with LEGO Mindstorms</h3>
+                        <p class="text-gray-600 mb-4">Build and program robots using LEGO kits, learning problem-solving along the way.</p>
+                        <div class="mt-4 flex items-center justify-between">
+                            <div class="flex items-center space-x-2">
+                                <div class="flex text-yellow-400 text-sm">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                </div>
+                                <span class="text-xs text-gray-500">(28)</span>
+                            </div>
+                            <span class="font-bold text-primary">$79</span>
+                        </div>
+                        
+                        <div class="mt-2 flex justify-between items-end">
+                            <div class="flex items-center text-sm text-gray-500">
+                                <i class="far fa-clock mr-1"></i>
+                                <span>10 weeks</span>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="text-xs bg-green-100 text-green-800 px-2 py-0.5 rounded">Enrollment Open</span>
+                                <a href="#" class="text-sm font-medium text-primary hover:underline ml-2">Learn More →</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="course-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
+                    <div class="h-48 bg-gradient-to-r from-purple-100 to-pink-100 flex items-center justify-center">
+                        <i class="fas fa-mobile-alt text-6xl text-primary"></i>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-2">
+                            <span class="bg-purple-100 text-purple-800 text-xs font-semibold px-2.5 py-0.5 rounded">Advanced</span>
+                            <span class="ml-2 text-xs text-gray-500">Age 12+</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">App Development with MIT App Inventor</h3>
+                        <p class="text-gray-600 mb-4">Design and build real mobile apps using a visual programming environment.</p>
+                        <div class="mt-4 flex items-center justify-between">
+                            <div class="flex items-center space-x-2">
+                                <div class="flex text-yellow-400 text-sm">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <span class="text-xs text-gray-500">(56)</span>
+                            </div>
+                            <span class="font-bold text-primary">$69</span>
+                        </div>
+                        
+                        <div class="mt-2 flex justify-between items-end">
+                            <div class="flex items-center text-sm text-gray-500">
+                                <i class="far fa-clock mr-1"></i>
+                                <span>6 weeks</span>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded">Limited Spots</span>
+                                <a href="#" class="text-sm font-medium text-primary hover:underline ml-2">Learn More →</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Teens Courses (initially hidden) -->
+            <div id="teens-courses" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 hidden">
+                <!-- Teens courses would go here -->
+                <div class="course-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
+                    <div class="h-48 bg-gradient-to-r from-blue-100 to-indigo-100 flex items-center justify-center">
+                        <i class="fab fa-python text-6xl text-primary"></i>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-2">
+                            <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded">Beginner</span>
+                            <span class="ml-2 text-xs text-gray-500">Age 15+</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Python Programming Essentials</h3>
+                        <p class="text-gray-600 mb-4">Learn Python from scratch and build projects like calculators, games, and simple apps.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-primary">$89</span>
+                            <a href="#" class="text-sm font-medium text-primary hover:underline">Learn More →</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="course-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
+                    <div class="h-48 bg-gradient-to-r from-red-100 to-orange-100 flex items-center justify-center">
+                        <i class="fas fa-globe text-6xl text-primary"></i>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-2">
+                            <span class="bg-yellow-100 text-yellow-800 text-xs font-semibold px-2.5 py-0.5 rounded">Intermediate</span>
+                            <span class="ml-2 text-xs text-gray-500">Age 16+</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Web Development Fundamentals</h3>
+                        <p class="text-gray-600 mb-4">Master HTML, CSS, and JavaScript to build interactive websites from scratch.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-primary">$99</span>
+                            <a href="#" class="text-sm font-medium text-primary hover:underline">Learn More →</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="course-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
+                    <div class="h-48 bg-gradient-to-r from-green-100 to-blue-100 flex items-center justify-center">
+                        <i class="fas fa-database text-6xl text-primary"></i>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-2">
+                            <span class="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded">Advanced</span>
+                            <span class="ml-2 text-xs text-gray-500">Age 17+</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Introduction to Data Science</h3>
+                        <p class="text-gray-600 mb-4">Learn how to analyze data and create visualizations using Python and its libraries.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-primary">$119</span>
+                            <a href="#" class="text-sm font-medium text-primary hover:underline">Learn More →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Adults Courses (initially hidden) -->
+            <div id="adults-courses" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 hidden">
+                <!-- Adults courses would go here -->
+                <div class="course-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
+                    <div class="h-48 bg-gradient-to-r from-purple-100 to-indigo-100 flex items-center justify-center">
+                        <i class="fab fa-react text-6xl text-primary"></i>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-2">
+                            <span class="bg-purple-100 text-purple-800 text-xs font-semibold px-2.5 py-0.5 rounded">Intermediate</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Modern Web Development with React</h3>
+                        <p class="text-gray-600 mb-4">Master React.js to build professional, interactive web applications with modern tools.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-primary">$149</span>
+                            <a href="#" class="text-sm font-medium text-primary hover:underline">Learn More →</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="course-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
+                    <div class="h-48 bg-gradient-to-r from-gray-100 to-blue-100 flex items-center justify-center">
+                        <i class="fab fa-aws text-6xl text-primary"></i>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-2">
+                            <span class="bg-gray-100 text-gray-800 text-xs font-semibold px-2.5 py-0.5 rounded">Advanced</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Cloud Computing with AWS</h3>
+                        <p class="text-gray-600 mb-4">Learn to deploy, manage, and scale applications using Amazon Web Services.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-primary">$199</span>
+                            <a href="#" class="text-sm font-medium text-primary hover:underline">Learn More →</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="course-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
+                    <div class="h-48 bg-gradient-to-r from-yellow-100 to-orange-100 flex items-center justify-center">
+                        <i class="fas fa-brain text-6xl text-primary"></i>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-2">
+                            <span class="bg-yellow-100 text-yellow-800 text-xs font-semibold px-2.5 py-0.5 rounded">Expert</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Machine Learning Fundamentals</h3>
+                        <p class="text-gray-600 mb-4">Dive into AI and machine learning concepts with Python and popular ML libraries.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-primary">$249</span>
+                            <a href="#" class="text-sm font-medium text-primary hover:underline">Learn More →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-12 text-center">
+                <a href="#" class="px-6 py-3 bg-primary text-white font-bold rounded-md hover:bg-secondary transition inline-block">View All Courses</a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- About Section -->
+    <section id="about" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-12 md:mb-0 md:pr-12">
+                    <h2 class="text-3xl font-bold font-display mb-6">About <span class="text-accent">CodeKidsHub</span></h2>
+                    <p class="text-gray-600 mb-4">Founded in 2023, CodeKidsHub was born from a simple idea: programming education should be accessible, engaging, and valuable for everyone, regardless of age or background.</p>
+                    <p class="text-gray-600 mb-6">We've created a unique learning ecosystem where young students get exposed to computational thinking through playful activities, while adults receive practical, career-focused training aligned with industry needs.</p>
+                    
+                    <div class="grid grid-cols-2 gap-4 mb-8">
+                        <div class="bg-light p-4 rounded-lg">
+                            <div class="text-4xl font-bold text-primary mb-2">5,000+</div>
+                            <div class="text-gray-600">Students Enrolled</div>
+                        </div>
+                        <div class="bg-light p-4 rounded-lg">
+                            <div class="text-4xl font-bold text-primary mb-2">50+</div>
+                            <div class="text-gray-600">Expert Instructors</div>
+                        </div>
+                        <div class="bg-light p-4 rounded-lg">
+                            <div class="text-4xl font-bold text-primary mb-2">100+</div>
+                            <div class="text-gray-600">Hours of Content</div>
+                        </div>
+                        <div class="bg-light p-4 rounded-lg">
+                            <div class="text-4xl font-bold text-primary mb-2">90%</div>
+                            <div class="text-gray-600">Completion Rate</div>
+                        </div>
+                    </div>
+                    
+                    <a href="#" class="px-6 py-3 bg-accent text-dark font-bold rounded-md hover:bg-yellow-500 transition inline-flex items-center">
+                        <span>Our Story</span>
+                        <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+                
+                <div class="md:w-1/2">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Our team" class="rounded-lg shadow-lg w-full">
+                        <div class="absolute -bottom-6 -left-6 bg-primary p-4 rounded-lg shadow-lg text-white hidden md:block">
+                            <div class="text-lg font-bold">Since 2023</div>
+                            <div class="text-sm">Empowering future coders</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Learning Paths -->
+    <section class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-center font-display mb-4">Structured <span class="text-accent">Learning Paths</span></h2>
+            <p class="text-lg text-center text-gray-600 max-w-3xl mx-auto mb-12">Choose the path that fits your goals and follow our proven curriculum.</p>
+            
+            <div class="flex flex-col space-y-8">
+                <!-- Path 1 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <div class="flex flex-col md:flex-row">
+                        <div class="md:w-1/3 bg-gradient-to-r from-blue-50 to-indigo-50 p-8 flex flex-col justify-center">
+                            <div class="text-4xl text-primary mb-4">
+                                <i class="fas fa-child"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold mb-2">Young Coders (5-12 years)</h3>
+                            <p class="text-gray-600">Playful introduction to programming concepts</p>
+                            <a href="#" class="mt-4 text-primary font-medium hover:underline inline-flex items-center">
+                                Explore Path
+                                <i class="fas fa-chevron-right ml-1"></i>
+                            </a>
+                        </div>
+                        <div class="md:w-2/3 p-8 grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="border-l-4 border-accent pl-4">
+                                <h4 class="font-bold mb-1">Stage 1: Foundations</h4>
+                                <p class="text-sm text-gray-600">Drag-and-drop coding with Scratch</p>
+                            </div>
+                            <div class="border-l-4 border-accent pl-4">
+                                <h4 class="font-bold mb-1">Stage 2: Exploration</h4>
+                                <p class="text-sm text-gray-600">Game design & robotics</p>
+                            </div>
+                            <div class="border-l-4 border-accent pl-4">
+                                <h4 class="font-bold mb-1">Stage 3: Creation</h4>
+                                <p class="text-sm text-gray-600">Simple app development</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Path 2 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <div class="flex flex-col md:flex-row">
+                        <div class="md:w-1/3 bg-gradient-to-r from-green-50 to-teal-50 p-8 flex flex-col justify-center">
+                            <div class="text-4xl text-primary mb-4">
+                                <i class="fas fa-user-graduate"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold mb-2">Teen Developers (13-18 years)</h3>
+                            <p class="text-gray-600">Building real projects with professional tools</p>
+                            <a href="#" class="mt-4 text-primary font-medium hover:underline inline-flex items-center">
+                                Explore Path
+                                <i class="fas fa-chevron-right ml-1"></i>
+                            </a>
+                        </div>
+                        <div class="md:w-2/3 p-8 grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="border-l-4 border-accent pl-4">
+                                <h4 class="font-bold mb-1">Stage 1: Core Skills</h4>
+                                <p class="text-sm text-gray-600">Python & Web Development</p>
+                            </div>
+                            <div class="border-l-4 border-accent pl-4">
+                                <h4 class="font-bold mb-1">Stage 2: Specialization</h4>
+                                <p class="text-sm text-gray-600">Choose your focus area</p>
+                            </div>
+                            <div class="border-l-4 border-accent pl-4">
+                                <h4 class="font-bold mb-1">Stage 3: Portfolio</h4>
+                                <p class="text-sm text-gray-600">Build real projects for college apps</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Path 3 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <div class="flex flex-col md:flex-row">
+                        <div class="md:w-1/3 bg-gradient-to-r from-purple-50 to-pink-50 p-8 flex flex-col justify-center">
+                            <div class="text-4xl text-primary mb-4">
+                                <i class="fas fa-briefcase"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold mb-2">Career Advancers (18+ years)</h3>
+                            <p class="text-gray-600">Professional development for tech careers</p>
+                            <a href="#" class="mt-4 text-primary font-medium hover:underline inline-flex items-center">
+                                Explore Path
+                                <i class="fas fa-chevron-right ml-1"></i>
+                            </a>
+                        </div>
+                        <div class="md:w-2/3 p-8 grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="border-l-4 border-accent pl-4">
+                                <h4 class="font-bold mb-1">Stage 1: Fundamentals</h4>
+                                <p class="text-sm text-gray-600">Programming basics & OOP</p>
+                            </div>
+                            <div class="border-l-4 border-accent pl-4">
+                                <h4 class="font-bold mb-1">Stage 2: Tech Stack</h4>
+                                <p class="text-sm text-gray-600">Full-stack development</p>
+                            </div>
+                            <div class="border-l-4 border-accent pl-4">
+                                <h4 class="font-bold mb-1">Stage 3: Career Prep</h4>
+                                <p class="text-sm text-gray-600">Interview training & resumes</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Testimonials -->
+    <section id="testimonials" class="py-16 bg-primary text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-center font-display mb-4">Success <span class="text-accent">Stories</span></h2>
+            <p class="text-lg text-center text-blue-100 max-w-3xl mx-auto mb-12">Hear from our students about their learning journeys.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white bg-opacity-10 p-6 rounded-lg backdrop-blur-sm">
+                    <div class="flex items-center mb-4">
+                        <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="Student" class="w-12 h-12 rounded-full border-2 border-accent">
+                        <div class="ml-4">
+                            <h4 class="font-bold">Sarah Johnson</h4>
+                            <div class="text-accent text-sm">Parent of 8-year-old</div>
+                        </div>
+                    </div>
+                    <p class="italic mb-4">"My daughter went from never showing interest in computers to begging me to buy her a coding book after just 2 weeks in the Scratch course!"</p>
+                    <div class="flex text-yellow-400">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+                
+                <div class="bg-white bg-opacity-10 p-6 rounded-lg backdrop-blur-sm">
+                    <div class="flex items-center mb-4">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Student" class="w-12 h-12 rounded-full border-2 border-accent">
+                        <div class="ml-4">
+                            <h4 class="font-bold">Michael Chen</h4>
+                            <div class="text-accent text-sm">High School Senior</div>
+                        </div>
+                    </div>
+                    <p class="italic mb-4">"The web development course helped me build an app for my school project that got me into MIT's computer science program. Thank you!"</p>
+                    <div class="flex text-yellow-400">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+                
+                <div class="bg-white bg-opacity-10 p-6 rounded-lg backdrop-blur-sm">
+                    <div class="flex items-center mb-4">
+                        <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Student" class="w-12 h-12 rounded-full border-2 border-accent">
+                        <div class="ml-4">
+                            <h4 class="font-bold">Elena Rodriguez</h4>
+                            <div class="text-accent text-sm">Career Changer</div>
+                        </div>
+                    </div>
+                    <p class="italic mb-4">"At 35, I transitioned from marketing to a junior developer role after completing the full-stack path. The career coaching was invaluable."</p>
+                    <div class="flex text-yellow-400">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-12 text-center">
+                <a href="#" class="px-6 py-3 bg-accent text-dark font-bold rounded-md hover:bg-yellow-500 transition">View More Success Stories</a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Student Projects Showcase -->
+    <section class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-center font-display mb-4">Student <span class="text-accent">Projects</span></h2>
+            <p class="text-lg text-center text-gray-600 max-w-3xl mx-auto mb-12">See what our students have built during their learning journey.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white rounded-lg shadow-md overflow-hidden group">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1546521343-4eb2c01aa44b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=735&q=80" alt="Kid's Game Project" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex items-end p-4">
+                            <div class="text-white">
+                                <h3 class="font-bold">Space Adventure Game</h3>
+                                <p class="text-sm">By Emma, Age 9</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow-md overflow-hidden group">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Teen App Project" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex items-end p-4">
+                            <div class="text-white">
+                                <h3 class="font-bold">Homework Helper App</h3>
+                                <p class="text-sm">By Jayden, Age 16</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow-md overflow-hidden group">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1522542550221-31fd19575a2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Portfolio Project" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex items-end p-4">
+                            <div class="text-white">
+                                <h3 class="font-bold">Professional Portfolio</h3>
+                                <p class="text-sm">By Sarah, Career Changer</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-12 text-center">
+                <a href="#" class="px-6 py-3 bg-primary text-white font-bold rounded-md hover:bg-secondary transition">View More Student Projects</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Instructors -->
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-center font-display mb-4">Meet Our <span class="text-accent">Instructors</span></h2>
+            <p class="text-lg text-center text-gray-600 max-w-3xl mx-auto mb-12">Learn from experienced educators and industry professionals.</p>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+                <div class="text-center">
+                    <div class="w-48 h-48 mx-auto mb-4 rounded-full overflow-hidden border-4 border-primary shadow-lg">
+                        <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Instructor" class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="text-xl font-bold">David Wilson</h3>
+                    <div class="text-primary mb-2">Child Education Specialist</div>
+                    <p class="text-gray-600 text-sm px-4">Former elementary teacher with 10+ years experience making tech fun for kids.</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-48 h-48 mx-auto mb-4 rounded-full overflow-hidden border-4 border-primary shadow-lg">
+                        <img src="https://randomuser.me/api/portraits/women/43.jpg" alt="Instructor" class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="text-xl font-bold">Jamie Park</h3>
+                    <div class="text-primary mb-2">Game Developer</div>
+                    <p class="text-gray-600 text-sm px-4">Indie game creator teaching teens how to bring their game ideas to life.</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-48 h-48 mx-auto mb-4 rounded-full overflow-hidden border-4 border-primary shadow-lg">
+                        <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Instructor" class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="text-xl font-bold">Natalie Graham</h3>
+                    <div class="text-primary mb-2">Senior Software Engineer</div>
+                    <p class="text-gray-600 text-sm px-4">Google engineer teaching practical coding skills for career advancement.</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-48 h-48 mx-auto mb-4 rounded-full overflow-hidden border-4 border-primary shadow-lg">
+                        <img src="https://randomuser.me/api/portraits/men/84.jpg" alt="Instructor" class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="text-xl font-bold">Marcus Lopez</h3>
+                    <div class="text-primary mb-2">AI Researcher</div>
+                    <p class="text-gray-600 text-sm px-4">PhD in Computer Science making complex concepts accessible to beginners.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Events Section -->
+    <section class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-center font-display mb-4">Professional Development <span class="text-accent">Events</span></h2>
+            <p class="text-lg text-center text-gray-600 max-w-3xl mx-auto mb-12">Enhance your skills with our professionally curated workshops, webinars, and conferences.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg">
+                    <div class="h-48 bg-gradient-to-br from-blue-600 to-indigo-700 flex items-center justify-center text-white relative">
+                        <div class="absolute top-4 left-4 bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-semibold">WEBINAR</div>
+                        <div class="text-center p-4 z-10">
+                            <div class="text-4xl font-bold">15</div>
+                            <div class="text-xl font-medium">JUNE 2023</div>
+                        </div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">AI/ML TRACK</span>
+                            <span class="text-sm text-gray-500"><i class="far fa-clock mr-1"></i> 1:00 PM EST</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Artificial Intelligence Fundamentals</h3>
+                        <p class="text-gray-600 mb-4">Professional workshop on core AI concepts and practical applications.</p>
+                        
+                        <button class="event-toggle-btn w-full flex justify-between items-center py-2 text-primary font-medium" data-event="event1">
+                            <span>View Details</span>
+                            <i class="fas fa-chevron-down transition-transform duration-300"></i>
+                        </button>
+                        
+                        <div class="event-details hidden pt-4 border-t border-gray-100 mt-4" id="event1-details">
+                            <h4 class="font-semibold mb-2">What You'll Learn:</h4>
+                            <ul class="space-y-2 text-gray-600 text-sm mb-4">
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                    <span>Core principles of machine learning</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                    <span>Practical applications in industry</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                    <span>Hands-on demo with Python</span>
+                                </li>
+                            </ul>
+                            
+                            <h4 class="font-semibold mb-2">Speaker:</h4>
+                            <div class="flex items-center mb-4">
+                                <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Speaker" class="w-10 h-10 rounded-full mr-3">
+                                <div>
+                                    <div class="font-medium">Dr. Sarah Chen</div>
+                                    <div class="text-sm text-gray-500">AI Researcher at TechCorp</div>
+                                </div>
+                            </div>
+                            
+                            <a href="#" class="block w-full text-center px-4 py-2 bg-primary hover:bg-secondary text-white rounded-md transition">Register Now</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg">
+                    <div class="h-48 bg-gradient-to-br from-purple-600 to-pink-600 flex items-center justify-center text-white relative">
+                        <div class="absolute top-4 left-4 bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-semibold">CONFERENCE</div>
+                        <div class="text-center p-4 z-10">
+                            <div class="text-4xl font-bold">22</div>
+                            <div class="text-xl font-medium">JUNE 2023</div>
+                        </div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="bg-purple-100 text-purple-800 text-xs font-medium px-2.5 py-0.5 rounded">CAREER GROWTH</span>
+                            <span class="text-sm text-gray-500"><i class="far fa-clock mr-1"></i>9:00 AM EST</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Tech Career Summit</h3>
+                        <p class="text-gray-600 mb-4">Two-day event featuring industry leaders and career development workshops.</p>
+                        
+                        <button class="event-toggle-btn w-full flex justify-between items-center py-2 text-primary font-medium" data-event="event2">
+                            <span>View Details</span>
+                            <i class="fas fa-chevron-down transition-transform duration-300"></i>
+                        </button>
+                        
+                        <div class="event-details hidden pt-4 border-t border-gray-100 mt-4" id="event2-details">
+                            <h4 class="font-semibold mb-2">Highlights:</h4>
+                            <ul class="space-y-2 text-gray-600 text-sm mb-4">
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                    <span>Keynote by Google engineering director</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                    <span>Resume and interview workshops</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                    <span>Networking with top tech recruiters</span>
+                                </li>
+                            </ul>
+                            
+                            <h4 class="font-semibold mb-2">Agenda:</h4>
+                            <div class="text-sm text-gray-600 space-y-2 mb-4">
+                                <div class="flex justify-between">
+                                    <span>Day 1: Career Development</span>
+                                    <span>9am-5pm</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Day 2: Technical Workshops</span>
+                                    <span>10am-4pm</span>
+                                </div>
+                            </div>
+                            
+                            <a href="#" class="block w-full text-center px-4 py-2 bg-primary hover:bg-secondary text-white rounded-md transition">Get Tickets</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg">
+                    <div class="h-48 bg-gradient-to-br from-green-600 to-teal-500 flex items-center justify-center text-white relative">
+                        <div class="absolute top-4 left-4 bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-semibold">WORKSHOP</div>
+                        <div class="text-center p-4 z-10">
+                            <div class="text-4xl font-bold">05</div>
+                            <div class="text-xl font-medium">JULY 2023</div>
+                        </div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded">DEVELOPMENT</span>
+                            <span class="text-sm text-gray-500"><i class="far fa-clock mr-1"></i>6:30 PM EST</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Advanced React Patterns</h3>
+                        <p class="text-gray-600 mb-4">Deep dive into professional React development techniques and best practices.</p>
+                        
+                        <button class="event-toggle-btn w-full flex justify-between items-center py-2 text-primary font-medium" data-event="event3">
+                            <span>View Details</span>
+                            <i class="fas fa-chevron-down transition-transform duration-300"></i>
+                        </button>
+                        
+                        <div class="event-details hidden pt-4 border-t border-gray-100 mt-4" id="event3-details">
+                            <h4 class="font-semibold mb-2">Workshop Outline:</h4>
+                            <ul class="space-y-2 text-gray-600 text-sm mb-4">
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                    <span>State management strategies</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                    <span>Performance optimization</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                    <span>Component composition patterns</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                    <span>Testing strategies</span>
+                                </li>
+                            </ul>
+                            
+                            <h4 class="font-semibold mb-2">Requirements:</h4>
+                            <ul class="text-sm text-gray-600 space-y-1 mb-4">
+                                <li>- Intermediate React experience</li>
+                                <li>- Laptop with Node.js installed</li>
+                                <li>- VS Code or similar IDE</li>
+                            </ul>
+                            
+                            <a href="#" class="block w-full text-center px-4 py-2 bg-primary hover:bg-secondary text-white rounded-md transition">Reserve Your Seat</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-12 text-center">
+                <a href="#" class="px-6 py-3 bg-primary text-white font-bold rounded-md hover:bg-secondary transition">View All Events</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-16 bg-gradient-to-r from-primary to-secondary text-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold font-display mb-6">Ready to Start Your Coding Journey?</h2>
+            <p class="text-xl mb-8">Whether you're 5 or 50, it's never too early or too late to learn programming.</p>
+            
+            <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                <a href="#" class="px-6 py-4 bg-accent text-dark font-bold rounded-md hover:bg-yellow-500 transition text-lg">Get Started for Free</a>
+                <a href="#" class="px-6 py-4 border-2 border-white text-white font-bold rounded-md hover:bg-white hover:text-primary transition text-lg">Schedule a Consultation</a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Code Playground -->
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-center font-display mb-4">Interactive <span class="text-accent">Playground</span></h2>
+            <p class="text-lg text-center text-gray-600 max-w-3xl mx-auto mb-12">Try coding right in your browser - no setup required!</p>
+            
+            <div class="bg-dark rounded-lg overflow-hidden shadow-xl">
+                <div class="bg-gray-800 px-4 py-3 flex items-center">
+                    <div class="flex space-x-2 mr1-4">
+                        <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                        <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                        <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                    </div>
+                    <div class="ml-4 text-sm text-gray-400">JavaScript Playground</div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2">
+                    <div class="p-4 bg-gray-900 text-gray-300">
+                        <pre><code class="language-javascript">// Try changing this code!
+function greet(name) {
+    return `Hello ${name}!`;
+}
+
+console.log(greet("Coder"));
+</code></pre>
+                    </div>
+                    <div class="p-4 bg-gray-100">
+                        <h4 class="font-bold mb-2">Output:</h4>
+                        <div id="output" class="bg-white p-3 rounded min-h-20 border border-gray-300">
+                            Hello Coder!
+                        </div>
+                        <button class="mt-4 px-4 py-2 bg-primary text-white rounded hover:bg-secondary transition" onclick="runCode()">
+                            Run Code
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
+                <button class="px-3 py-2 bg-gray-100 rounded hover:bg-gray-200 transition" onclick="loadExample('basic')">Basic</button>
+                <button class="px-3 py-2 bg-gray-100 rounded hover:bg-gray-200 transition" onclick="loadExample('loop')">Loops</button>
+                <button class="px-3 py-2 bg-gray-100 rounded hover:bg-gray-200 transition" onclick="loadExample('game')">Simple Game</button>
+                <button class="px-3 py-2 bg-gray-100 rounded hover:bg-gray-200 transition" onclick="loadExample('dom')">DOM Manipulation</button>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function runCode() {
+            try {
+                const code = document.querySelector('.language-javascript').innerText;
+                const fn = new Function(code + '\nreturn greet.name ? greet("Visitor") : "See the output above"');
+                document.getElementById('output').innerText = fn();
+            } catch (e) {
+                document.getElementById('output').innerText = 'Error: ' + e.message;
+            }
+        }
+        
+        function loadExample(type) {
+            let code = '';
+            if (type === 'basic') {
+                code = `function greet(name) {\n    return \`Hello \${name}!\`;\n}\n\nconsole.log(greet("Learner"));`;
+            } else if (type === 'loop') {
+                code = `// Count to 5\nfor(let i = 1; i <= 5; i++) {\n    console.log(i);\n}\n`;
+            } else if (type === 'game') {
+                code = `// Guess the number\nconst secret = Math.floor(Math.random() * 10) + 1;\n\nfunction checkGuess(guess) {\n    if(guess === secret) return "You won!";\n    return guess > secret ? "Too high" : "Too low";\n}\n`;
+            } else if (type === 'dom') {
+                code = `// DOM manipulation example\nfunction changeText() {\n    document.getElementById('output').innerText = \n        "You clicked me at: " + new Date().toLocaleTimeString();\n}\n`;
+            }
+            document.querySelector('.language-javascript').innerText = code;
+        }
+    </script>
+
+    <!-- FAQ Section -->
+    <section class="py-16 bg-gray-50">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-center font-display mb-12">Frequently Asked <span class="text-accent">Questions</span></h2>
+            
+            <div class="space-y-4">
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+                    <button class="faq-btn w-full flex justify-between items-center p-6 text-left">
+                        <span class="text-lg font-medium">What's the right starting point for my child's age?</span>
+                        <i class="fas fa-chevron-down text-primary transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-content px-6 pb-6 hidden">
+                        <p class="text-gray-600">We have age-specific recommendations: ages 5-7 start with coding games, 8-10 with visual programming languages like Scratch, 10-12 with basic text languages, and teens can jump directly into Python, JavaScript or web development. Our advisors can help you choose.</p>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+                    <button class="faq-btn w-full flex justify-between items-center p-6 text-left">
+                        <span class="text-lg font-medium">Do adults and kids learn together in the same classes?</span>
+                        <i class="fas fa-chevron-down text-primary transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-content px-6 pb-6 hidden">
+                        <p class="text-gray-600">No, we maintain separate learning environments. Children learn through our playful, gamified platform designed for young minds, while adults use our professional development portal with career-focused curriculum. Some families choose to learn different topics at the same time though!</p>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+                    <button class="faq-btn w-full flex justify-between items-center p-6 text-left">
+                        <span class="text-lg font-medium">How long do courses typically take to complete?</span>
+                        <i class="fas fa-chevron-down text-primary transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-content px-6 pb-6 hidden">
+                        <p class="text-gray-600">For kids, most introductory courses are 6-8 weeks with 1-2 hours per week. Teen and adult courses range from 4 weeks for focused topics to 6 months for comprehensive certification programs. All courses are self-paced with recommended timelines.</p>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+                    <button class="faq-btn w-full flex justify-between items-center p-6 text-left">
+                        <span class="text-lg font-medium">What if we need to pause or cancel a subscription?</span>
+                        <i class="fas fa-chevron-down text-primary transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-content px-6 pb-6 hidden">
+                        <p class="text-gray-600">You can pause or cancel anytime with no penalties. When you pause, you retain access to completed materials but can't start new courses. We also offer pro-rated refunds for any unused full months in your subscription.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Contact Section -->
+    <section id="contact" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row">
+                <div class="lg:w-1/2 mb-12 lg:mb-0 lg:pr-12">
+                    <h2 class="text-3xl font-bold font-display mb-6">Contact <span class="text-accent">Us</span></h2>
+                    <p class="text-gray-600 mb-8">Have questions about our programs or want to schedule a free trial session? Reach out to our team.</p>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-start">
+                            <div class="bg-primary bg-opacity-10 p-3 rounded-full text-primary mr-4">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold mb-1">Visit Us</h4>
+                                <p class="text-gray-600">123 Coding Avenue, Tech City, TC 10101</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="bg-primary bg-opacity-10 p-3 rounded-full text-primary mr-4">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold mb-1">Email Us</h4>
+                                <p class="text-gray-600">hello@codekidshub.com<br>support@codekidshub.com</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="bg-primary bg-opacity-10 p-3 rounded-full text-primary mr-4">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold mb-1">Call Us</h4>
+                                <p class="text-gray-600">(123) 456-7890<br>Mon-Fri: 9am-6pm EST</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8">
+                        <h4 class="font-bold mb-4">Follow Us</h4>
+                        <div class="flex space-x-4">
+                            <a href="#" class="bg-gray-100 p-3 rounded-full text-primary hover:bg-primary hover:text-white transition">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="#" class="bg-gray-100 p-3 rounded-full text-primary hover:bg-primary hover:text-white transition">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="#" class="bg-gray-100 p-3 rounded-full text-primary hover:bg-primary hover:text-white transition">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="#" class="bg-gray-100 p-3 rounded-full text-primary hover:bg-primary hover:text-white transition">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                            <a href="#" class="bg-gray-100 p-3 rounded-full text-primary hover:bg-primary hover:text-white transition">
+                                <i class="fab fa-youtube"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="lg:w-1/2">
+                    <form class="bg-light p-8 rounded-lg shadow-sm">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                            <div>
+                                <label for="first-name" class="block text-sm font-medium text-gray-700 mb-1">First Name</label>
+                                <input type="text" id="first-name" class="w-full px-4 py-2 rounded-md border border-gray-300 focus:ring-primary focus:border-primary">
+                            </div>
+                            <div>
+                                <label for="last-name" class="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
+                                <input type="text" id="last-name" class="w-full px-4 py-2 rounded-md border border-gray-300 focus:ring-primary focus:border-primary">
+                            </div>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                            <input type="email" id="email" class="w-full px-4 py-2 rounded-md border border-gray-300 focus:ring-primary focus:border-primary">
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label for="message" class="block text-sm font-medium text-gray-700 mb-1">Your Message</label>
+                            <textarea id="message" rows="4" class="w-full px-4 py-2 rounded-md border border-gray-300 focus:ring-primary focus:border-primary"></textarea>
+                        </div>
+                        
+                        <button type="submit" class="w-full px-6 py-3 bg-primary text-white font-bold rounded-md hover:bg-secondary transition">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Newsletter -->
+    <section class="py-12 bg-accent">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-2xl md:text-3xl font-bold font-display mb-4 text-dark">Stay Updated with CodeKids<span class="text-white">Hub</span></h2>
+            <p class="text-dark mb-6">Subscribe to our newsletter for course updates, coding tips, and special offers.</p>
+            
+            <form class="flex flex-col sm:flex-row max-w-md mx-auto">
+                <input type="email" placeholder="Your email address" class="px-4 py-3 rounded-md sm:rounded-r-none border-0 focus:ring-2 focus:ring-primary mb-2 sm:mb-0 flex-grow">
+                <button type="submit" class="px-6 py-3 bg-primary text-white font-bold rounded-md sm:rounded-l-none hover:bg-secondary transition">Subscribe</button>
+            </form>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="bg-dark text-gray-300 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <h3 class="text-xl font-bold text-white mb-4 font-display">CodeKids<span class="text-accent">Hub</span></h3>
+                    <p class="mb-4">Empowering the next generation of coders while helping professionals stay ahead in their tech careers.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-300 hover:text-white transition">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="text-gray-300 hover:text-white transition">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-300 hover:text-white transition">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-gray-300 hover:text-white transition">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-bold mb-4">For Kids & Teens</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-white transition">Ages 5-9 Courses</a></li>
+                        <li><a href="#" class="hover:text-white transition">Ages 10-14 Courses</a></li>
+                        <li><a href="#" class="hover:text-white transition">Teen Programming (15-18)</a></li>
+                        <li><a href="#" class="hover:text-white transition">Summer Camps</a></li>
+                        <li><a href="#" class="hover:text-white transition">After-School Programs</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-bold mb-4">For Adults</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-white transition">Career Development</a></li>
+                        <li><a href="#" class="hover:text-white transition">Web Development</a></li>
+                        <li><a href="#" class="hover:text-white transition">Data Science</a></li>
+                        <li><a href="#" class="hover:text-white transition">Cloud Computing</a></li>
+                        <li><a href="#" class="hover:text-white transition">Career Coaching</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-bold mb-4">Company</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-white transition">About Us</a></li>
+                        <li><a href="#" class="hover:text-white transition">Our Team</a></li>
+                        <li><a href="#" class="hover:text-white transition">Careers</a></li>
+                        <li><a href="#" class="hover:text-white transition">Blog</a></li>
+                        <li><a href="#" class="hover:text-white transition">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="pt-8 border-t border-gray-700 flex flex-col md:flex-row justify-between items-center">
+                <p class="mb-4 md:mb-0">© 2023 CodeKidsHub. All rights reserved.</p>
+                <div class="flex space-x-6">
+                    <a href="#" class="hover:text-white transition">Privacy Policy</a>
+                    <a href="#" class="hover:text-white transition">Terms of Service</a>
+                    <a href="#" class="hover:text-white transition">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Animated Counters
+        const counters = document.querySelectorAll('.counter');
+        const speed = 200;
+
+        const animateCounters = () => {
+            counters.forEach(counter => {
+                const target = +counter.getAttribute('data-target');
+                const count = +counter.innerText;
+                const increment = target / speed;
+
+                if (count < target) {
+                    counter.innerText = Math.ceil(count + increment);
+                    setTimeout(animateCounters, 1);
+                } else {
+                    counter.innerText = target;
+                }
+            });
+        };
+
+        // Run counters when section is in view
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounters();
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        const counterSection = document.querySelector('.bg-white.py-6');
+        if (counterSection) {
+            observer.observe(counterSection);
+        }
+
+        // Mobile Menu Toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        // Course Filtering
+        const kidsBtn = document.getElementById('kids-btn');
+        const teensBtn = document.getElementById('teens-btn');
+        const adultsBtn = document.getElementById('adults-btn');
+        
+        const kidsCourses = document.getElementById('kids-courses');
+        const teensCourses = document.getElementById('teens-courses');
+        const adultsCourses = document.getElementById('adults-courses');
+        
+        const filterBtns = [kidsBtn, teensBtn, adultsBtn];
+        const courseSections = [kidsCourses, teensCourses, adultsCourses];
+        
+        filterBtns.forEach((btn, index) => {
+            btn.addEventListener('click', () => {
+                // Update button states
+                filterBtns.forEach(b => {
+                    b.classList.remove('bg-primary', 'text-white');
+                    b.classList.add('bg-gray-200', 'text-dark');
+                });
+                btn.classList.remove('bg-gray-200', 'text-dark');
+                btn.classList.add('bg-primary', 'text-white');
+                
+                // Update course visibility
+                courseSections.forEach(section => section.classList.add('hidden'));
+                courseSections[index].classList.remove('hidden');
+            });
+        });
+        
+        // Toggle event details
+        document.querySelectorAll('.event-toggle-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const eventId = this.getAttribute('data-event');
+                const details = document.getElementById(`${eventId}-details`);
+                const icon = this.querySelector('i');
+                
+                details.classList.toggle('hidden');
+                icon.classList.toggle('rotate-180');
+                
+                // Update button text
+                const isOpen = !details.classList.contains('hidden');
+                this.querySelector('span').textContent = isOpen ? 'Hide Details' : 'View Details';
+            });
+        });
+
+        // FAQ Accordion
+        const faqBtns = document.querySelectorAll('.faq-btn');
+        
+        faqBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const content = btn.nextElementSibling;
+                const icon = btn.querySelector('i');
+                
+                // Toggle content
+                content.classList.toggle('hidden');
+                
+                // Rotate icon
+                icon.classList.toggle('rotate-180');
+            });
+        });
+        
+        // Modal functions
+        function showModal(id) {
+            document.getElementById(id).classList.remove('hidden');
+            document.body.classList.add('overflow-hidden');
+        }
+
+        function hideModal(id) {
+            document.getElementById(id).classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+        }
+
+        // Handle login/signup links
+        document.querySelectorAll('a[href="#login"]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                showModal('login-modal');
+            });
+        });
+
+        document.querySelectorAll('a[href="#signup"]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                showModal('register-modal');
+            });
+        });
+
+        // Course category filtering
+        const categoryFilter = document.getElementById('course-category');
+        if (categoryFilter) {
+            categoryFilter.addEventListener('change', function() {
+                const selectedCategory = this.value;
+                const courses = document.querySelectorAll('.course-card');
+                
+                courses.forEach(course => {
+                    const category = course.getAttribute('data-category');
+                    if (selectedCategory === 'all' || category === selectedCategory) {
+                        course.style.display = 'block';
+                    } else {
+                        course.style.display = 'none';
+                    }
+                });
+            });
+        }
+
+        // Initialize course category data attributes
+        document.querySelectorAll('.course-card').forEach((card, index) => {
+            const categories = ['game', 'ai', 'web']; // Set appropriate categories
+            card.setAttribute('data-category', categories[index % categories.length]);
+        });
+
+        // Form submissions
+        document.getElementById('login-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            // Handle login logic here
+            alert('Login functionality would go here');
+            hideModal('login-modal');
+        });
+
+        document.getElementById('register-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            // Handle registration logic here
+            alert('Registration functionality would go here');
+            hideModal('register-modal');
+        });
+
+        // Close modal when clicking outside
+        document.querySelectorAll('.fixed.inset-0').forEach(el => {
+            el.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    hideModal(this.parentElement.id);
+                }
+            });
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
