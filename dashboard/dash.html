@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Future Africa Minds Academy Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+    ::-webkit-scrollbar-thumb {
+      background-color: rgb(59 130 246); /* blue-500 */
+      border-radius: 10px;
+      border: 2px solid #f1f1f1;
+    }
+    /* Chart Styles */
+    .bar {
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    .bar:hover {
+      fill: rgb(29 78 216); /* blue-700 */
+    }
+    .pie-slice:hover {
+      opacity: 0.7;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body class="bg-white text-gray-800 font-sans">
+
+<aside class="fixed top-0 left-0 w-64 h-screen bg-white shadow-lg flex flex-col border-r border-gray-200">
+  <div class="flex items-center justify-center h-20 border-b border-gray-200 px-6">
+    <h1 class="text-2xl font-extrabold text-blue-500 tracking-wide">FAMA Dashboard</h1>
+  </div>
+  <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
+    <a href="#" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">📊 Dashboard</a>
+    <a href="#" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">👥 Students</a>
+    <a href="#" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">👩‍🏫 Instructors</a>
+    <a href="#" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">📚 Courses</a>
+    
+    <a href="#" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">🗓️ Events</a>
+    <a href="#" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">🧪 Quizzes / Challenges</a>
+    <a href="#" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">🎓 Certificates</a>
+    <a href="#" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">💬 Forum / Community</a>
+    <a href="#" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">📢 Announcements</a>
+    <a href="#" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">📈 Reports</a>
+    <a href="#" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">⚙️ Settings</a>
+  </nav>
+  <div class="px-4 py-4 border-t border-gray-200">
+    <button id="logoutBtn" class="w-full bg-[#FACC15] text-gray-900 py-2 rounded font-bold hover:bg-[#EAB308] transition">
+      Logout
+    </button>
+  </div>
+</aside>
+
+
+  <!-- Main Content -->
+  <main class="ml-64 min-h-screen p-8">
+    <!-- Header -->
+    <header class="flex flex-col sm:flex-row justify-between items-center mb-10">
+      <div>
+        <h2 class="text-4xl font-extrabold mb-1">Welcome Back, <span class="text-blue-500">Admin</span></h2>
+        <p class="text-gray-600">Today is <span id="currentDate"></span></p>
+      </div>
+      <button
+        id="darkToggle"
+        class="mt-4 sm:mt-0 bg-[#FACC15] text-gray-900 font-semibold px-4 py-2 rounded hover:bg-[#EAB308] transition"
+      >
+        Toggle Dark Mode
+      </button>
+    </header>
+
+<!-- Stats Cards -->
+<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+  <!-- Total Students -->
+  <div class="bg-white rounded-lg shadow p-6 flex items-center space-x-4 hover:shadow-blue-500 transition border border-gray-200">
+    <div class="bg-blue-500 p-3 rounded-full">
+      <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path d="M12 20v-6m-4 6v-4m8 4v-10a4 4 0 0 0-8 0v10"></path>
+      </svg>
+    </div>
+    <div>
+      <p class="text-3xl font-bold" id="totalStudents">1,250</p>
+      <p class="text-blue-500 font-semibold">Total Students</p>
+    </div>
+  </div>
+
+  <!-- Total Instructors -->
+  <div class="bg-white rounded-lg shadow p-6 flex items-center space-x-4 hover:shadow-blue-500 transition border border-gray-200">
+    <div class="bg-blue-500 p-3 rounded-full">
+      <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <circle cx="12" cy="7" r="4"></circle>
+        <path d="M5.5 21v-2a4.5 4.5 0 0 1 9 0v2"></path>
+      </svg>
+    </div>
+    <div>
+      <p class="text-3xl font-bold" id="totalInstructors">48</p>
+      <p class="text-blue-500 font-semibold">Total Instructors</p>
+    </div>
+  </div>
+
+  <!-- Courses Offered -->
+  <div class="bg-white rounded-lg shadow p-6 flex items-center space-x-4 hover:shadow-blue-500 transition border border-gray-200">
+    <div class="bg-blue-500 p-3 rounded-full">
+      <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="15" y1="9" x2="9" y2="15"></line>
+        <line x1="9" y1="9" x2="15" y2="15"></line>
+      </svg>
+    </div>
+    <div>
+      <p class="text-3xl font-bold" id="totalCourses">24</p>
+      <p class="text-blue-500 font-semibold">Courses Offered</p>
+    </div>
+  </div>
+
+  <!-- Completed Projects -->
+  <div class="bg-white rounded-lg shadow p-6 flex items-center space-x-4 hover:shadow-blue-500 transition border border-gray-200">
+    <div class="bg-blue-500 p-3 rounded-full">
+      <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path d="M12 20l9-12H3z"></path>
+      </svg>
+    </div>
+    <div>
+      <p class="text-3xl font-bold" id="completedProjects">72</p>
+      <p class="text-blue-500 font-semibold">Completed Projects</p>
+    </div>
+  </div>
+
+  <!-- Upcoming Events -->
+  <div class="bg-white rounded-lg shadow p-6 flex items-center space-x-4 hover:shadow-blue-500 transition border border-gray-200">
+    <div class="bg-blue-500 p-3 rounded-full">
+      <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path d="M4 4h16v16H4z"></path>
+        <path d="M8 8h8v8H8z"></path>
+      </svg>
+    </div>
+    <div>
+      <p class="text-3xl font-bold" id="upcomingEvents">7</p>
+      <p class="text-blue-500 font-semibold">Upcoming Events</p>
+    </div>
+  </div>
+
+  <!-- Forum Posts -->
+  <div class="bg-white rounded-lg shadow p-6 flex items-center space-x-4 hover:shadow-blue-500 transition border border-gray-200">
+    <div class="bg-blue-500 p-3 rounded-full">
+      <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+      </svg>
+    </div>
+    <div>
+      <p class="text-3xl font-bold" id="forumPosts">340</p>
+      <p class="text-blue-500 font-semibold">Forum Posts</p>
+    </div>
+  </div>
+
+  <!-- Certificates Issued -->
+  <div class="bg-white rounded-lg shadow p-6 flex items-center space-x-4 hover:shadow-blue-500 transition border border-gray-200">
+    <div class="bg-blue-500 p-3 rounded-full">
+      <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+        <circle cx="12" cy="7" r="4"></circle>
+      </svg>
+    </div>
+    <div>
+      <p class="text-3xl font-bold" id="certificatesIssued">560</p>
+      <p class="text-blue-500 font-semibold">Certificates Issued</p>
+    </div>
+  </div>
+
+  <!-- Challenges Completed -->
+  <div class="bg-white rounded-lg shadow p-6 flex items-center space-x-4 hover:shadow-blue-500 transition border border-gray-200">
+    <div class="bg-blue-500 p-3 rounded-full">
+      <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path d="M12 2l1.09 3.41L17 7l-3 2.17L14.18 13 12 10.83 9.82 13 10 9.17 7 7l3.91-1.59L12 2z"></path>
+      </svg>
+    </div>
+    <div>
+      <p class="text-3xl font-bold" id="challengesCompleted">134</p>
+      <p class="text-blue-500 font-semibold">Challenges Completed</p>
+    </div>
+  </div>
+</section>
+
+
+    <!-- Charts Section -->
+    <section class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+      <!-- Enrollment Bar Chart -->
+      <div class="bg-white rounded-lg shadow p-6 border border-gray-200">
+        <h3 class="text-xl font-bold mb-4">Student Enrollment (Last 6 Months)</h3>
+        <svg id="barChart" width="100%" height="240" viewBox="0 0 400 240" class="w-full" xmlns="http://www.w3.org/2000/svg">
+          <!-- Bars inserted by JS -->
+        </svg>
+        <div class="flex justify-between mt-4 text-gray-600 text-sm font-mono px-2">
+          <span>Jan</span>
+          <span>Feb</span>
+          <span>Mar</span>
+          <span>Apr</span>
+          <span>May</span>
+          <span>Jun</span>
+        </div>
+      </div>
+
+      <!-- Courses Pie Chart -->
+      <div class="bg-white rounded-lg shadow p-6 border border-gray-200">
+        <h3 class="text-xl font-bold mb-4">Course Category Distribution</h3>
+        <svg id="pieChart" width="100%" height="240" viewBox="0 0 240 240" class="mx-auto block" xmlns="http://www.w3.org/2000/svg" >
+          <!-- Pie slices inserted by JS -->
+        </svg>
+        <ul id="pieLegend" class="mt-4 flex justify-center space-x-6 text-sm text-gray-600 font-semibold"></ul>
+      </div>
+    </section>
+
+    <!-- Recent Activity -->
+    <section class="bg-white rounded-lg shadow p-6 mb-12 border border-gray-200">
+      <h3 class="text-xl font-bold mb-4">Recent Activity</h3>
+      <ul id="activityFeed" class="space-y-4 max-h-64 overflow-y-auto scrollbar-thin scrollbar-thumb-blue-500 scrollbar-track-gray-100 pr-2">
+        <!-- Activity inserted by JS -->
+      </ul>
+    </section>
+
+    <!-- Announcements -->
+    <section class="bg-blue-500 rounded-lg p-6 text-white shadow-lg max-w-4xl mx-auto">
+      <h3 class="text-xl font-bold mb-2">Announcements</h3>
+      <p class="font-semibold">🎉 Next coding bootcamp starts on <span class="underline">July 10, 2025</span> — enroll now!</p>
+    </section>
+  </main>
+
+  <!-- Scripts -->
+  <script>
+    // Show current date
+    const dateEl = document.getElementById("currentDate");
+    const options = { weekday: "long", year: "numeric", month: "long", day: "numeric" };
+    dateEl.textContent = new Date().toLocaleDateString(undefined, options);
+
+    // Dark mode toggle
+    const darkToggle = document.getElementById("darkToggle");
+    darkToggle.addEventListener("click", () => {
+      document.body.classList.toggle("bg-gray-900");
+      document.body.classList.toggle("text-gray-100");
+      document.body.classList.toggle("bg-white");
+      document.body.classList.toggle("text-gray-800");
+
+      // Update sidebar colors on toggle
+      const sidebar = document.querySelector("aside");
+      sidebar.classList.toggle("bg-gray-800");
+      sidebar.classList.toggle("bg-white");
+      sidebar.classList.toggle("text-gray-100");
+      sidebar.classList.toggle("text-gray-800");
+    });
+
+    // Bar chart data (enrollment per month)
+    const enrollmentData = [120, 180, 150, 200, 170, 220]; // example data for 6 months
+
+    const barChart = document.getElementById("barChart");
+    const barWidth = 40;
+    const barGap = 20;
+    const chartHeight = 200;
+    const maxVal = Math.max(...enrollmentData);
+
+    enrollmentData.forEach((val, i) => {
+      const barHeight = (val / maxVal) * chartHeight;
+      const x = i * (barWidth + barGap) + 30;
+      const y = chartHeight - barHeight + 20;
+
+      const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+      rect.setAttribute("x", x);
+      rect.setAttribute("y", y);
+      rect.setAttribute("width", barWidth);
+      rect.setAttribute("height", barHeight);
+      rect.setAttribute("fill", "rgb(59 130 246)"); // blue-500
+      rect.classList.add("bar");
+
+      rect.addEventListener("mouseenter", () => {
+        rect.setAttribute("fill", "rgb(29 78 216)"); // blue-700
+      });
+      rect.addEventListener("mouseleave", () => {
+        rect.setAttribute("fill", "rgb(59 130 246)");
+      });
+
+      barChart.appendChild(rect);
+    });
+
+    // Pie chart data
+    const pieData = [
+      { label: "Web Development", value: 40, color: "rgb(59 130 246)" }, // blue-500
+      { label: "Robotics", value: 25, color: "rgb(96 165 250)" }, // blue-400
+      { label: "AI & ML", value: 20, color: "rgb(147 197 253)" }, // blue-300
+      { label: "Other", value: 15, color: "rgb(191 219 254)" }, // blue-200
+    ];
+
+    const pieChart = document.getElementById("pieChart");
+    const pieLegend = document.getElementById("pieLegend");
+    const cx = 120;
+    const cy = 120;
+    const radius = 100;
+
+    // Calculate total value for percentage
+    const totalValue = pieData.reduce((sum, d) => sum + d.value, 0);
+
+    let startAngle = 0;
+    pieData.forEach(({ label, value, color }) => {
+      const sliceAngle = (value / totalValue) * 2 * Math.PI;
+      const x1 = cx + radius * Math.cos(startAngle);
+      const y1 = cy + radius * Math.sin(startAngle);
+      const endAngle = startAngle + sliceAngle;
+      const x2 = cx + radius * Math.cos(endAngle);
+      const y2 = cy + radius * Math.sin(endAngle);
+      const largeArcFlag = sliceAngle > Math.PI ? 1 : 0;
+
+      const pathData = [
+        `M ${cx} ${cy}`,
+        `L ${x1} ${y1}`,
+        `A ${radius} ${radius} 0 ${largeArcFlag} 1 ${x2} ${y2}`,
+        `Z`,
+      ].join(" ");
+
+      const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      path.setAttribute("d", pathData);
+      path.setAttribute("fill", color);
+      path.classList.add("pie-slice");
+
+      path.addEventListener("mouseenter", () => {
+        path.style.opacity = "0.7";
+      });
+      path.addEventListener("mouseleave", () => {
+        path.style.opacity = "1";
+      });
+
+      pieChart.appendChild(path);
+
+      // Legend item
+      const li = document.createElement("li");
+      li.innerHTML = `<span class="inline-block w-4 h-4 mr-2 rounded" style="background-color:${color}"></span>${label} (${value}%)`;
+      pieLegend.appendChild(li);
+
+      startAngle += sliceAngle;
+    });
+
+    // Recent activity feed sample data
+    const activities = [
+      { time: "5 mins ago", text: "New student registered: Alice M." },
+      { time: "15 mins ago", text: "Course 'Intro to Robotics' started." },
+      { time: "1 hour ago", text: "Project 'Smart Home' marked completed." },
+      { time: "3 hours ago", text: "Announcement: Bootcamp registration open." },
+      { time: "Yesterday", text: "Student Michael Chen achieved top grades." },
+      { time: "2 days ago", text: "Course 'AI Basics' added to curriculum." },
+      { time: "3 days ago", text: "System maintenance completed successfully." },
+    ];
+
+    const activityFeed = document.getElementById("activityFeed");
+    activities.forEach(({ time, text }) => {
+      const li = document.createElement("li");
+      li.className = "bg-gray-100 rounded p-3";
+      li.innerHTML = `<p class="font-semibold">${text}</p><span class="text-xs text-gray-500">${time}</span>`;
+      activityFeed.appendChild(li);
+    });
+
+    // Logout button example (just alert)
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+      alert("Logging out...");
+    });
+  </script>
+</body>
+</html>

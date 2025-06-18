@@ -182,6 +182,18 @@
         .nav-link:hover::after {
             width: 100%;
         }
+
+        @keyframes fade-in {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fade-in 1s ease-out forwards;
+  opacity: 0;
+}
+.delay-200 { animation-delay: 0.2s; }
+.delay-300 { animation-delay: 0.3s; }
     </style>
 </head>
 <body class="font-sans bg-gray-50">
@@ -239,27 +251,58 @@
         </div>
     </nav>
     
-    <!-- Hero Section -->
-    <section id="home" class="hero-gradient text-white py-16 md:py-24">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center">
-            <div class="md:w-1/2 mb-12 md:mb-0">
-                <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold font-display leading-tight mb-6">Unlock the Future with <span class="text-accent">Code</span></h1>
-                <p class="text-xl mb-8 max-w-lg">From young minds to career professionals, we provide the perfect path to master programming and keep up with tech trends.</p>
-                <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+<!-- Hero Section -->
+<section id="home" class="bg-gradient-to-r from-indigo-900 via-purple-900 to-black text-white py-28 lg:py-36">
+  <div class="max-w-7xl mx-auto px-6 sm:px-12 lg:px-20 flex flex-col lg:flex-row items-center justify-between space-y-12 lg:space-y-0">
+    
+<!-- Enhanced Text Content -->
+<div class="lg:w-1/2 text-center lg:text-left">
+  <h1 class="text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-tight mb-8 tracking-tight text-white drop-shadow-xl animate-fade-in">
+    Empower Africa's Next Tech Leaders<br />
+    <span class="bg-gradient-to-r from-yellow-400 via-pink-400 to-red-500 bg-clip-text text-transparent">
+      Through Code & Creativity
+    </span>
+  </h1>
+
+  <p class="text-lg sm:text-xl lg:text-2xl text-gray-200 mb-10 max-w-xl mx-auto lg:mx-0 leading-relaxed animate-fade-in delay-200">
+    At <strong class="text-yellow-300">Future Africa Minds Academy</strong>, we ignite young minds with coding robotics, and digital innovation —shaping a new generation of builders, thinkers, and changemakers.
+  </p>
+
+<!-- Enhanced Call-to-Action Buttons -->
+<div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
                     <a href="#" class="px-6 py-3 bg-accent text-dark font-bold rounded-md hover:bg-yellow-500 transition text-center">Start Learning Now</a>
                     <a href="#" class="px-6 py-3 border-2 border-white text-white font-bold rounded-md hover:bg-white hover:text-primary transition text-center">Explore Courses</a>
                 </div>
-            </div>
-            <div class="md:w-1/2 flex justify-center">
-                <div class="relative">
-                    <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80" alt="Kids coding" class="rounded-lg shadow-2xl w-full max-w-md animate-float">
-                    <div class="absolute -bottom-6 -right-6 bg-accent p-4 rounded-lg shadow-lg hidden md:block">
-                        <div class="text-xl font-bold text-dark">5000+ Happy Learners</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+
+</div>
+
+
+<!-- Image Carousel -->
+<div class="lg:w-1/2 flex justify-center relative">
+  <div class="relative w-full max-w-xl overflow-hidden rounded-3xl shadow-2xl">
+    <div id="carousel-images" class="flex transition-transform duration-700 ease-in-out">
+      <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=774&q=80" alt="Kids Coding 1" class="w-full flex-shrink-0 object-cover" />
+      <img src="https://images.unsplash.com/photo-1588072432836-e10032774350?auto=format&fit=crop&w=774&q=80" alt="Kids Coding 2" class="w-full flex-shrink-0 object-cover" />
+      <img src="https://images.unsplash.com/photo-1596495577886-d920f1fb7238?auto=format&fit=crop&w=774&q=80" alt="Kids Coding 3" class="w-full flex-shrink-0 object-cover" />
+    </div>
+
+   
+  </div>
+<!-- Beautiful Glass Badge -->
+<div class="absolute -bottom-6 -right-6 bg-yellow-400 text-black px-6 py-4 rounded-2xl shadow-xl hidden md:block z-10">
+      <p class="text-xl font-bold flex items-center gap-2">
+    <span class="animate-bounce">📚</span>
+    5,000+ Inspired Learners
+  </p>
+</div>
+
+</div>
+
+
+  </div>
+</section>
+
+
     
     <!-- Achievement Badges -->
     <div class="bg-white py-6 shadow-sm">
@@ -378,13 +421,13 @@
             <div class="flex flex-col sm:flex-row justify-between items-center mb-8 gap-4">
                 <div class="inline-flex rounded-md shadow-sm" role="group">
                     <button id="kids-btn" class="filter-btn px-4 py-2 text-sm font-medium rounded-l-lg bg-primary text-white focus:outline-none">
-                        For Kids (5-14)
+                        For Kids (8-12)
                     </button>
                     <button id="teens-btn" class="filter-btn px-4 py-2 text-sm font-medium bg-gray-200 text-dark focus:outline-none">
-                        For Teens (15-18)
+                        For Teens (13-16)
                     </button>
                     <button id="adults-btn" class="filter-btn px-4 py-2 text-sm font-medium rounded-r-lg bg-gray-200 text-dark focus:outline-none">
-                        For Adults (18+)
+                        For Adults (17-18+)
                     </button>
                 </div>
                 
@@ -696,7 +739,7 @@
                             <div class="text-4xl text-primary mb-4">
                                 <i class="fas fa-child"></i>
                             </div>
-                            <h3 class="text-2xl font-bold mb-2">Young Coders (5-12 years)</h3>
+                            <h3 class="text-2xl font-bold mb-2">Young Coders (8-12 years)</h3>
                             <p class="text-gray-600">Playful introduction to programming concepts</p>
                             <a href="#" class="mt-4 text-primary font-medium hover:underline inline-flex items-center">
                                 Explore Path
@@ -727,7 +770,7 @@
                             <div class="text-4xl text-primary mb-4">
                                 <i class="fas fa-user-graduate"></i>
                             </div>
-                            <h3 class="text-2xl font-bold mb-2">Teen Developers (13-18 years)</h3>
+                            <h3 class="text-2xl font-bold mb-2">Teen Developers (13-16 years)</h3>
                             <p class="text-gray-600">Building real projects with professional tools</p>
                             <a href="#" class="mt-4 text-primary font-medium hover:underline inline-flex items-center">
                                 Explore Path
@@ -758,7 +801,7 @@
                             <div class="text-4xl text-primary mb-4">
                                 <i class="fas fa-briefcase"></i>
                             </div>
-                            <h3 class="text-2xl font-bold mb-2">Career Advancers (18+ years)</h3>
+                            <h3 class="text-2xl font-bold mb-2">Career Advancers (17-18+ years)</h3>
                             <p class="text-gray-600">Professional development for tech careers</p>
                             <a href="#" class="mt-4 text-primary font-medium hover:underline inline-flex items-center">
                                 Explore Path
@@ -784,6 +827,76 @@
             </div>
         </div>
     </section>
+
+
+
+
+    <!-- Gallery -->
+<section id="gallery" class="py-20 bg-white text-gray-800">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h2 class="text-3xl font-bold text-center font-display mb-4">Our <span class="text-yellow-500">Learning Moments</span></h2>
+    <p class="text-lg text-center text-gray-600 max-w-3xl mx-auto mb-12">Snapshots from our programs—young minds building the future, one line of code at a time.</p>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      <!-- Image 1 -->
+      <div class="relative group overflow-hidden rounded-xl shadow-lg">
+        <img src="https://images.unsplash.com/photo-1596495577886-d920f1fb7238?auto=format&fit=crop&w=800&q=80" alt="Student coding" class="w-full h-64 object-cover transform group-hover:scale-105 transition duration-500" />
+        <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
+          <p class="text-white font-bold text-lg">Junior Coders at Work</p>
+        </div>
+      </div>
+
+      <!-- Image 2 -->
+      <div class="relative group overflow-hidden rounded-xl shadow-lg">
+        <img src="https://images.unsplash.com/photo-1603575448372-5cbd1c3d9a7c?auto=format&fit=crop&w=800&q=80" alt="Coding Workshop" class="w-full h-64 object-cover transform group-hover:scale-105 transition duration-500" />
+        <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
+          <p class="text-white font-bold text-lg">Robotics & AI Workshop</p>
+        </div>
+      </div>
+
+      <!-- Image 3 -->
+      <div class="relative group overflow-hidden rounded-xl shadow-lg">
+        <img src="https://images.unsplash.com/photo-1571260899304-425eee4c7efc?auto=format&fit=crop&w=800&q=80" alt="Kids learning" class="w-full h-64 object-cover transform group-hover:scale-105 transition duration-500" />
+        <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
+          <p class="text-white font-bold text-lg">Tech Bootcamp Fun</p>
+        </div>
+      </div>
+
+      <!-- Image 4 -->
+      <div class="relative group overflow-hidden rounded-xl shadow-lg">
+        <img src="https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?auto=format&fit=crop&w=800&q=80" alt="Coding Camp" class="w-full h-64 object-cover transform group-hover:scale-105 transition duration-500" />
+        <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
+          <p class="text-white font-bold text-lg">Building the Future</p>
+        </div>
+      </div>
+
+      <!-- Image 5 -->
+      <div class="relative group overflow-hidden rounded-xl shadow-lg">
+        <img src="https://images.unsplash.com/photo-1581090700227-1e8e8f1b7ec2?auto=format&fit=crop&w=800&q=80" alt="Student Showcase" class="w-full h-64 object-cover transform group-hover:scale-105 transition duration-500" />
+        <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
+          <p class="text-white font-bold text-lg">Show & Tell Session</p>
+        </div>
+      </div>
+
+      <!-- Image 6 -->
+      <div class="relative group overflow-hidden rounded-xl shadow-lg">
+        <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80" alt="Team building" class="w-full h-64 object-cover transform group-hover:scale-105 transition duration-500" />
+        <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
+          <p class="text-white font-bold text-lg">Team Collaboration</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-12 text-center">
+      <a href="#" class="inline-block px-6 py-3 bg-yellow-400 text-black font-bold rounded-md hover:bg-yellow-500 transition">View Full Gallery</a>
+    </div>
+  </div>
+</section>
+
+
+
+
+
     
     <!-- Testimonials -->
     <section id="testimonials" class="py-16 bg-primary text-white">
@@ -936,6 +1049,43 @@
                     <div class="text-primary mb-2">Senior Software Engineer</div>
                     <p class="text-gray-600 text-sm px-4">Google engineer teaching practical coding skills for career advancement.</p>
                 </div>
+
+                <div class="text-center">
+                    <div class="w-48 h-48 mx-auto mb-4 rounded-full overflow-hidden border-4 border-primary shadow-lg">
+                        <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Instructor" class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="text-xl font-bold">Natalie Graham</h3>
+                    <div class="text-primary mb-2">Senior Software Engineer</div>
+                    <p class="text-gray-600 text-sm px-4">Google engineer teaching practical coding skills for career advancement.</p>
+                </div>
+
+                <div class="text-center">
+                    <div class="w-48 h-48 mx-auto mb-4 rounded-full overflow-hidden border-4 border-primary shadow-lg">
+                        <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Instructor" class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="text-xl font-bold">Natalie Graham</h3>
+                    <div class="text-primary mb-2">Senior Software Engineer</div>
+                    <p class="text-gray-600 text-sm px-4">Google engineer teaching practical coding skills for career advancement.</p>
+                </div>
+
+
+                <div class="text-center">
+                    <div class="w-48 h-48 mx-auto mb-4 rounded-full overflow-hidden border-4 border-primary shadow-lg">
+                        <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Instructor" class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="text-xl font-bold">Natalie Graham</h3>
+                    <div class="text-primary mb-2">Senior Software Engineer</div>
+                    <p class="text-gray-600 text-sm px-4">Google engineer teaching practical coding skills for career advancement.</p>
+                </div>
+
+                <div class="text-center">
+                    <div class="w-48 h-48 mx-auto mb-4 rounded-full overflow-hidden border-4 border-primary shadow-lg">
+                        <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Instructor" class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="text-xl font-bold">Natalie Graham</h3>
+                    <div class="text-primary mb-2">Senior Software Engineer</div>
+                    <p class="text-gray-600 text-sm px-4">Google engineer teaching practical coding skills for career advancement.</p>
+                </div>
                 
                 <div class="text-center">
                     <div class="w-48 h-48 mx-auto mb-4 rounded-full overflow-hidden border-4 border-primary shadow-lg">
@@ -948,6 +1098,9 @@
             </div>
         </div>
     </section>
+
+
+
     
     <!-- Events Section -->
     <section class="py-16 bg-gray-50">
@@ -1127,6 +1280,8 @@
         </div>
     </section>
 
+
+
     <!-- CTA Section -->
     <section class="py-16 bg-gradient-to-r from-primary to-secondary text-white">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -1140,77 +1295,112 @@
         </div>
     </section>
     
-    <!-- Code Playground -->
-    <section class="py-16 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl font-bold text-center font-display mb-4">Interactive <span class="text-accent">Playground</span></h2>
-            <p class="text-lg text-center text-gray-600 max-w-3xl mx-auto mb-12">Try coding right in your browser - no setup required!</p>
-            
-            <div class="bg-dark rounded-lg overflow-hidden shadow-xl">
-                <div class="bg-gray-800 px-4 py-3 flex items-center">
-                    <div class="flex space-x-2 mr1-4">
-                        <div class="w-3 h-3 rounded-full bg-red-500"></div>
-                        <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
-                        <div class="w-3 h-3 rounded-full bg-green-500"></div>
-                    </div>
-                    <div class="ml-4 text-sm text-gray-400">JavaScript Playground</div>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2">
-                    <div class="p-4 bg-gray-900 text-gray-300">
-                        <pre><code class="language-javascript">// Try changing this code!
+<!-- Code Playground -->
+<section class="py-20 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h2 class="text-4xl font-extrabold text-center font-display mb-4">
+      Interactive <span class="text-yellow-400">Playground</span>
+    </h2>
+    <p class="text-lg text-center text-gray-600 max-w-3xl mx-auto mb-12">
+      Try coding right in your browser — no setup required!
+    </p>
+
+    <div class="bg-gray-900 rounded-xl overflow-hidden shadow-2xl">
+      <!-- Terminal header -->
+      <div class="bg-gray-800 px-4 py-3 flex items-center justify-between">
+        <div class="flex space-x-2">
+          <div class="w-3 h-3 rounded-full bg-red-500"></div>
+          <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+          <div class="w-3 h-3 rounded-full bg-green-500"></div>
+        </div>
+        <div class="text-sm text-gray-400">JavaScript Playground</div>
+      </div>
+
+      <!-- Editor + Output -->
+      <div class="grid grid-cols-1 md:grid-cols-2">
+        <div class="p-4 bg-black">
+          <textarea id="code" class="w-full h-64 bg-black text-green-400 font-mono text-sm rounded-lg p-3 resize-none focus:outline-none" spellcheck="false">
+// Try changing this code!
 function greet(name) {
-    return `Hello ${name}!`;
+  return `Hello ${name}!`;
 }
 
 console.log(greet("Coder"));
-</code></pre>
-                    </div>
-                    <div class="p-4 bg-gray-100">
-                        <h4 class="font-bold mb-2">Output:</h4>
-                        <div id="output" class="bg-white p-3 rounded min-h-20 border border-gray-300">
-                            Hello Coder!
-                        </div>
-                        <button class="mt-4 px-4 py-2 bg-primary text-white rounded hover:bg-secondary transition" onclick="runCode()">
-                            Run Code
-                        </button>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
-                <button class="px-3 py-2 bg-gray-100 rounded hover:bg-gray-200 transition" onclick="loadExample('basic')">Basic</button>
-                <button class="px-3 py-2 bg-gray-100 rounded hover:bg-gray-200 transition" onclick="loadExample('loop')">Loops</button>
-                <button class="px-3 py-2 bg-gray-100 rounded hover:bg-gray-200 transition" onclick="loadExample('game')">Simple Game</button>
-                <button class="px-3 py-2 bg-gray-100 rounded hover:bg-gray-200 transition" onclick="loadExample('dom')">DOM Manipulation</button>
-            </div>
+          </textarea>
         </div>
-    </section>
 
-    <script>
-        function runCode() {
-            try {
-                const code = document.querySelector('.language-javascript').innerText;
-                const fn = new Function(code + '\nreturn greet.name ? greet("Visitor") : "See the output above"');
-                document.getElementById('output').innerText = fn();
-            } catch (e) {
-                document.getElementById('output').innerText = 'Error: ' + e.message;
-            }
-        }
-        
-        function loadExample(type) {
-            let code = '';
-            if (type === 'basic') {
-                code = `function greet(name) {\n    return \`Hello \${name}!\`;\n}\n\nconsole.log(greet("Learner"));`;
-            } else if (type === 'loop') {
-                code = `// Count to 5\nfor(let i = 1; i <= 5; i++) {\n    console.log(i);\n}\n`;
-            } else if (type === 'game') {
-                code = `// Guess the number\nconst secret = Math.floor(Math.random() * 10) + 1;\n\nfunction checkGuess(guess) {\n    if(guess === secret) return "You won!";\n    return guess > secret ? "Too high" : "Too low";\n}\n`;
-            } else if (type === 'dom') {
-                code = `// DOM manipulation example\nfunction changeText() {\n    document.getElementById('output').innerText = \n        "You clicked me at: " + new Date().toLocaleTimeString();\n}\n`;
-            }
-            document.querySelector('.language-javascript').innerText = code;
-        }
-    </script>
+        <div class="p-4 bg-white text-gray-800">
+          <h4 class="font-bold mb-2">Output:</h4>
+          <div id="output" class="bg-gray-100 p-3 rounded border border-gray-300 min-h-20 font-mono text-sm"></div>
+          <button onclick="runCode()" class="mt-4 px-4 py-2 bg-yellow-400 text-black font-bold rounded-lg hover:bg-yellow-300 transition">
+            Run Code
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Example Buttons -->
+    <div class="mt-10 grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+      <button class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300" onclick="loadExample('basic')">Basic</button>
+      <button class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300" onclick="loadExample('loop')">Loops</button>
+      <button class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300" onclick="loadExample('game')">Simple Game</button>
+      <button class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300" onclick="loadExample('dom')">DOM Manipulation</button>
+    </div>
+  </div>
+</section>
+
+<script>
+  const examples = {
+    basic: `function greet(name) {
+  return \`Hello \${name}!\`;
+}
+
+console.log(greet("Learner"));`,
+
+    loop: `for (let i = 1; i <= 5; i++) {
+  console.log("Number: " + i);
+}`,
+
+    game: `let number = Math.floor(Math.random() * 10) + 1;
+console.log("Guess the number between 1 and 10");
+console.log("It's: " + number);`,
+
+    dom: `document.getElementById("output").innerText = "DOM Updated!";
+document.body.style.backgroundColor = "#fef08a";`
+  };
+
+function runCode() {
+  const code = document.getElementById('code').value;
+  const outputDiv = document.getElementById('output');
+  let output = '';
+
+  // Hook console.log
+  const originalLog = console.log;
+  console.log = function (msg) {
+    output += msg + '\n';
+  };
+
+  try {
+    eval(code); // ✅ This will allow DOM access
+    if (output.trim()) {
+      outputDiv.innerText = output;
+    } else if (!outputDiv.innerText.trim()) {
+      outputDiv.innerText = '(Code executed)';
+    }
+  } catch (err) {
+    outputDiv.innerText = 'Error: ' + err.message;
+  } finally {
+    console.log = originalLog;
+  }
+}
+
+
+  function loadExample(exampleName) {
+    document.getElementById('code').value = examples[exampleName];
+    document.getElementById('output').innerText = '';
+  }
+</script>
+
 
     <!-- FAQ Section -->
     <section class="py-16 bg-gray-50">
@@ -1476,6 +1666,19 @@ console.log(greet("Coder"));
         mobileMenuButton.addEventListener('click', () => {
             mobileMenu.classList.toggle('hidden');
         });
+
+
+
+        // Images slides in Hero Section
+
+        let index = 0;
+  const carousel = document.getElementById("carousel-images");
+  const totalImages = carousel.children.length;
+
+  setInterval(() => {
+    index = (index + 1) % totalImages;
+    carousel.style.transform = `translateX(-${index * 100}%)`;
+  }, 3000); // Change slide every 3 seconds
         
         // Course Filtering
         const kidsBtn = document.getElementById('kids-btn');
