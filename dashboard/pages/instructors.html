@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Instructors</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+    ::-webkit-scrollbar-thumb {
+      background-color: rgb(59 130 246); /* blue-500 */
+      border-radius: 10px;
+      border: 2px solid #f1f1f1;
+    }
+    .active-nav {
+      background-color: rgb(239 246 255);
+      border-left: 4px solid rgb(59 130 246);
+    }
+  </style>
+</head>
+<body class="bg-white text-gray-800 font-sans">
+
+<aside class="fixed top-0 left-0 w-64 h-screen bg-white shadow-lg flex flex-col border-r border-gray-200">
+  <div class="flex items-center justify-center h-20 border-b border-gray-200 px-6">
+    <h1 class="text-2xl font-extrabold text-blue-500 tracking-wide">FAMA Dashboard</h1>
+  </div>
+  <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
+    <a href="../dash.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">📊 Dashboard</a>
+    <a href="students.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">👥 Students</a>
+    <a href="instructors.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold active-nav">👩‍🏫 Instructors</a>
+    <a href="courses.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">📚 Courses</a>
+    <a href="events.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">🗓️ Events</a>
+    <a href="quizzes.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">🧪 Quizzes / Challenges</a>
+    <a href="certificates.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">🎓 Certificates</a>
+    <a href="forum.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">💬 Forum / Community</a>
+    <a href="#" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">📢 Announcements</a>
+    <a href="reports.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">📈 Reports</a>
+    <a href="settings.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">⚙️ Settings</a>
+  </nav>
+  <div class="px-4 py-4 border-t border-gray-200">
+    <button id="logoutBtn" class="w-full bg-[#FACC15] text-gray-900 py-2 rounded font-bold hover:bg-[#EAB308] transition">
+      Logout
+    </button>
+  </div>
+</aside>
+
+<main class="ml-64 min-h-screen p-8">
+  <header class="flex flex-col sm:flex-row justify-between items-center mb-8">
+    <div>
+      <h1 class="text-3xl font-bold">Instructor Management</h1>
+      <p class="text-gray-600 mt-2">Manage teaching staff and course assignments</p>
+    </div>
+    <button onclick="openInstructorModal()" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded flex items-center mt-4 sm:mt-0">
+      <i class="fas fa-plus mr-2"></i> Add Instructor
+    </button>
+  </header>
+
+  <!-- Stats Cards -->
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
+    <div class="bg-white rounded-lg shadow border border-gray-200 p-6 flex items-center">
+      <div class="bg-blue-100 p-3 rounded-full mr-4">
+        <i class="fas fa-chalkboard-teacher text-blue-500 text-xl"></i>
+      </div>
+      <div>
+        <p class="text-2xl font-bold" id="totalInstructors">24</p>
+        <p class="text-gray-600">Active Instructors</p>
+      </div>
+    </div>
+    <div class="bg-white rounded-lg shadow border border-gray-200 p-6 flex items-center">
+      <div class="bg-green-100 p-3 rounded-full mr-4">
+        <i class="fas fa-check-circle text-green-500 text-xl"></i>
+      </div>
+      <div>
+        <p class="text-2xl font-bold">18</p>
+        <p class="text-gray-600">Available Now</p>
+      </div>
+    </div>
+    <div class="bg-white rounded-lg shadow border border-gray-200 p-6 flex items-center">
+      <div class="bg-purple-100 p-3 rounded-full mr-4">
+        <i class="fas fa-book text-purple-500 text-xl"></i>
+      </div>
+      <div>
+        <p class="text-2xl font-bold">56</p>
+        <p class="text-gray-600">Courses Taught</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search and Filters -->
+  <div class="bg-white rounded-lg shadow border border-gray-200 p-6 mb-6">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Specialization</label>
+        <select class="w-full border rounded-lg px-3 py-2 focus:ring-blue-500 focus:border-blue-500">
+          <option>All Specializations</option>
+          <option>Web Development</option>
+          <option>Artificial Intelligence</option>
+          <option>Data Science</option>
+          <option>Robotics</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
+        <select class="w-full border rounded-lg px-3 py-2">
+          <option>All Statuses</option>
+          <option>Available</option>
+          <option>On Leave</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Courses</label>
+        <select class="w-full border rounded-lg px-3 py-2">
+          <option>All Courses</option>
+          <option>Intro to AI</option>
+          <option>Web Dev Bootcamp</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Search</label>
+        <div class="relative">
+          <input type="text" placeholder="Search instructors..." class="w-full border rounded-lg px-3 py-2 pl-10">
+          <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Instructor Table -->
+  <div class="bg-white rounded-lg shadow border border-gray-200 overflow-hidden">
+    <div class="overflow-x-auto">
+      <table class="min-w-full divide-y divide-gray-200" id="instructorsTable">
+        <thead class="bg-blue-50">
+          <tr>
+            <th class="px-6 py-3 text-left text-xs font-medium text-blue-500 uppercase tracking-wider cursor-pointer" onclick="sortTable(0)">
+              Instructor <i class="fas fa-sort ml-1"></i>
+            </th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-blue-500 uppercase tracking-wider">Specialization</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-blue-500 uppercase tracking-wider">Courses</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-blue-500 uppercase tracking-wider">Status</th>
+            <th class="px-6 py-3 text-right text-xs font-medium text-blue-500 uppercase tracking-wider">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200" id="instructorsBody">
+          <!-- Sample data will be loaded here -->
+        </tbody>
+      </table>
+    </div>
+    
+    <!-- Pagination -->
+    <div class="bg-white px-6 py-3 flex items-center justify-between border-t border-gray-200">
+      <div class="flex-1 flex justify-between sm:hidden">
+        <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"> Previous </a>
+        <a href="#" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"> Next </a>
+      </div>
+      <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+        <div>
+          <p class="text-sm text-gray-700">
+            Showing <span class="font-medium">1</span> to <span class="font-medium">8</span> of <span class="font-medium">24</span> results
+          </p>
+        </div>
+        <div>
+          <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+            <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+              <span class="sr-only">Previous</span>
+              <i class="fas fa-chevron-left"></i>
+            </a>
+            <a href="#" aria-current="page" class="z-10 bg-blue-50 border-blue-500 text-blue-500 relative inline-flex items-center px-4 py-2 border text-sm font-medium"> 1 </a>
+            <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium"> 2 </a>
+            <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium"> 3 </a>
+            <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+              <span class="sr-only">Next</span>
+              <i class="fas fa-chevron-right"></i>
+            </a>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- Instructor Modal -->
+<div id="instructorModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+  <div class="bg-white rounded-lg shadow-xl w-full max-w-2xl">
+    <div class="flex justify-between items-center border-b px-6 py-4">
+      <h3 class="text-lg font-bold" id="modalTitle">Add New Instructor</h3>
+      <button onclick="closeModal()" class="text-gray-500 hover:text-gray-700">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="p-6">
+      <form id="instructorForm">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+            <input type="text" id="instructorName" class="w-full border rounded-lg px-3 py-2 focus:ring-blue-500 focus:border-blue-500" required>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+            <input type="email" id="instructorEmail" class="w-full border rounded-lg px-3 py-2" required>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+            <input type="tel" id="instructorPhone" class="w-full border rounded-lg px-3 py-2">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Specialization</label>
+            <select id="instructorSpecialization" class="w-full border rounded-lg px-3 py-2">
+              <option>Web Development</option>
+              <option>Artificial Intelligence</option>
+              <option>Data Science</option>
+              <option>Robotics</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
+            <select id="instructorStatus" class="w-full border rounded-lg px-3 py-2">
+              <option value="available">Available</option>
+              <option value="on-leave">On Leave</option>
+              <option value="unavailable">Unavailable</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Profile Photo</label>
+            <div class="mt-1 flex items-center">
+              <span class="inline-block h-12 w-12 rounded-full overflow-hidden bg-gray-100" id="profilePreview">
+                <svg class="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+              </span>
+              <button type="button" class="ml-5 bg-white border border-gray-300 rounded-md shadow-sm py-2 px-3 text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                Change
+              </button>
+              <input type="file" id="profileUpload" class="hidden" accept="image/*">
+            </div>
+          </div>
+          <div class="md:col-span-2">
+            <label class="block text-sm font-medium text-gray-700 mb-1">Assigned Courses</label>
+            <select multiple id="instructorCourses" class="w-full border rounded-lg px-3 py-2 h-[100px]">
+              <option>Intro to Web Development</option>
+              <option>Advanced JavaScript</option>
+              <option>Artificial Intelligence Basics</option>
+              <option>Data Science Fundamentals</option>
+              <option>Robotics Engineering</option>
+            </select>
+          </div>
+          <div class="md:col-span-2">
+            <label class="block text-sm font-medium text-gray-700 mb-1">Bio</label>
+            <textarea id="instructorBio" rows="3" class="w-full border rounded-lg px-3 py-2"></textarea>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="flex justify-end space-x-3 border-t px-6 py-4">
+      <button onclick="closeModal()" class="px-4 py-2 border rounded-lg text-gray-700 hover:bg-gray-50">Cancel</button>
+      <button onclick="saveInstructor()" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600" id="saveButton">Add Instructor</button>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div id="deleteModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+  <div class="bg-white rounded-lg shadow-xl w-full max-w-md">
+    <div class="flex justify-between items-center border-b px-6 py-4">
+      <h3 class="text-lg font-bold">Confirm Deletion</h3>
+      <button onclick="closeDeleteModal()" class="text-gray-500 hover:text-gray-700">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="p-6">
+      <p class="text-gray-700">Are you sure you want to delete this instructor? This action cannot be undone.</p>
+      <input type="hidden" id="instructorToDelete">
+    </div>
+    <div class="flex justify-end space-x-3 border-t px-6 py-4">
+      <button onclick="closeDeleteModal()" class="px-4 py-2 border rounded-lg text-gray-700 hover:bg-gray-50">Cancel</button>
+      <button onclick="deleteInstructor()" class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600">Delete Instructor</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Sample instructor data
+  let instructors = [
+    {
+      id: 1,
+      name: "Prof. John Mbeki",
+      email: "john.mbeki@fama.edu",
+      phone: "+254712345678",
+      specialization: "Artificial Intelligence",
+      status: "available",
+      courses: ["Intro to AI", "Advanced ML"],
+      bio: "PhD in Computer Science with 10+ years teaching experience",
+      photo: "assets/instructors/prof-john.jpg"
+    },
+    {
+      id: 2,
+      name: "Dr. Sarah Johnson",
+      email: "sarah.j@fama.edu",
+      phone: "+254722334455",
+      specialization: "Web Development",
+      status: "available",
+      courses: ["Intro to Web Dev", "React Masterclass"],
+      bio: "Full-stack developer and educator specializing in modern JavaScript frameworks",
+      photo: "assets/instructors/dr-sarah.jpg"
+    },
+    // Add more sample instructors as needed
+  ];
+
+  // Current instructor being edited
+  let currentInstructorId = null;
+
+  // DOM elements
+  const instructorsBody = document.getElementById('instructorsBody');
+  const instructorModal = document.getElementById('instructorModal');
+  const deleteModal = document.getElementById('deleteModal');
+  const profileUpload = document.getElementById('profileUpload');
+  const profilePreview = document.getElementById('profilePreview');
+
+  // Initialize the page
+  document.addEventListener('DOMContentLoaded', function() {
+    loadInstructors();
+    setupEventListeners();
+  });
+
+  // Load instructors into the table
+  function loadInstructors() {
+    instructorsBody.innerHTML = '';
+    document.getElementById('totalInstructors').textContent = instructors.length;
+    
+    instructors.forEach(instructor => {
+      const row = document.createElement('tr');
+      row.className = 'hover:bg-blue-50';
+      row.innerHTML = `
+        <td class="px-6 py-4 whitespace-nowrap">
+          <div class="flex items-center">
+            <div class="flex-shrink-0 h-10 w-10">
+              <img class="h-10 w-10 rounded-full" src="${instructor.photo}" alt="${instructor.name}">
+            </div>
+            <div class="ml-4">
+              <div class="text-sm font-medium text-gray-900">${instructor.name}</div>
+              <div class="text-sm text-gray-500">${instructor.email}</div>
+            </div>
+          </div>
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap">
+          <div class="text-sm text-gray-900">${instructor.specialization}</div>
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap">
+          <div class="flex flex-wrap gap-1">
+            ${instructor.courses.map(course => `<span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">${course}</span>`).join('')}
+          </div>
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap">
+          <span class="px-2 py-1 rounded-full text-xs ${getStatusClass(instructor.status)}">${formatStatus(instructor.status)}</span>
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+          <button onclick="viewInstructor(${instructor.id})" class="text-blue-500 hover:text-blue-700 mr-3"><i class="fas fa-eye"></i></button>
+          <button onclick="editInstructor(${instructor.id})" class="text-yellow-500 hover:text-yellow-700 mr-3"><i class="fas fa-edit"></i></button>
+          <button onclick="confirmDeleteInstructor(${instructor.id})" class="text-red-500 hover:text-red-700"><i class="fas fa-trash"></i></button>
+        </td>
+      `;
+      instructorsBody.appendChild(row);
+    });
+  }
+
+  // Format status for display
+  function formatStatus(status) {
+    const statusMap = {
+      'available': 'Available',
+      'on-leave': 'On Leave',
+      'unavailable': 'Unavailable'
+    };
+    return statusMap[status] || status;
+  }
+
+  // Get CSS class for status badge
+  function getStatusClass(status) {
+    const classMap = {
+      'available': 'bg-green-100 text-green-800',
+      'on-leave': 'bg-yellow-100 text-yellow-800',
+      'unavailable': 'bg-red-100 text-red-800'
+    };
+    return classMap[status] || 'bg-gray-100 text-gray-800';
+  }
+
+  // Open modal to add new instructor
+  function openInstructorModal() {
+    currentInstructorId = null;
+    document.getElementById('modalTitle').textContent = 'Add New Instructor';
+    document.getElementById('saveButton').textContent = 'Add Instructor';
+    document.getElementById('instructorForm').reset();
+    profilePreview.innerHTML = '<svg class="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24"><path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" /></svg>';
+    instructorModal.classList.remove('hidden');
+  }
+
+  // Edit existing instructor
+  function editInstructor(id) {
+    const instructor = instructors.find(i => i.id === id);
+    if (!instructor) return;
+
+    currentInstructorId = id;
+    document.getElementById('modalTitle').textContent = 'Edit Instructor';
+    document.getElementById('saveButton').textContent = 'Save Changes';
+    
+    // Fill form with instructor data
+    document.getElementById('instructorName').value = instructor.name;
+    document.getElementById('instructorEmail').value = instructor.email;
+    document.getElementById('instructorPhone').value = instructor.phone;
+    document.getElementById('instructorSpecialization').value = instructor.specialization;
+    document.getElementById('instructorStatus').value = instructor.status;
+    document.getElementById('instructorBio').value = instructor.bio;
+    
+    // Set courses (this is a simplified version)
+    const courseSelect = document.getElementById('instructorCourses');
+    Array.from(courseSelect.options).forEach(option => {
+      option.selected = instructor.courses.includes(option.value);
+    });
+    
+    // Set profile image preview
+    profilePreview.innerHTML = `<img src="${instructor.photo}" class="h-full w-full object-cover" alt="${instructor.name}">`;
+    
+    instructorModal.classList.remove('hidden');
+  }
+
+  // View instructor details (would typically open a new page)
+  function viewInstructor(id) {
+    alert(`Viewing instructor with ID: ${id}`);
+    // In a real app, this would redirect to a profile page
+    // window.location.href = `instructor-profile.html?id=${id}`;
+  }
+
+  // Save instructor (add new or update existing)
+  function saveInstructor() {
+    const form = document.getElementById('instructorForm');
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+
+    const instructorData = {
+      name: document.getElementById('instructorName').value,
+      email: document.getElementById('instructorEmail').value,
+      phone: document.getElementById('instructorPhone').value,
+      specialization: document.getElementById('instructorSpecialization').value,
+      status: document.getElementById('instructorStatus').value,
+      bio: document.getElementById('instructorBio').value,
+      courses: Array.from(document.getElementById('instructorCourses').selectedOptions).map(opt => opt.value),
+      photo: profilePreview.querySelector('img') ? profilePreview.querySelector('img').src : 'assets/instructors/default.jpg'
+    };
+
+    if (currentInstructorId) {
+      // Update existing instructor
+      const index = instructors.findIndex(i => i.id === currentInstructorId);
+      if (index !== -1) {
+        instructors[index] = { ...instructors[index], ...instructorData };
+      }
+    } else {
+      // Add new instructor
+      const newId = instructors.length > 0 ? Math.max(...instructors.map(i => i.id)) + 1 : 1;
+      instructors.push({ id: newId, ...instructorData });
+    }
+
+    closeModal();
+    loadInstructors();
+    alert(`Instructor ${currentInstructorId ? 'updated' : 'added'} successfully!`);
+  }
+
+  // Confirm before deleting
+  function confirmDeleteInstructor(id) {
+    document.getElementById('instructorToDelete').value = id;
+    deleteModal.classList.remove('hidden');
+  }
+
+  // Delete instructor
+  function deleteInstructor() {
+    const id = parseInt(document.getElementById('instructorToDelete').value);
+    instructors = instructors.filter(i => i.id !== id);
+    closeDeleteModal();
+    loadInstructors();
+    alert('Instructor deleted successfully!');
+  }
+
+  // Close modals
+  function closeModal() {
+    instructorModal.classList.add('hidden');
+  }
+
+  function closeDeleteModal() {
+    deleteModal.classList.add('hidden');
+  }
+
+  // Set up event listeners
+  function setupEventListeners() {
+    // Profile image upload
+    profileUpload.addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+          profilePreview.innerHTML = `<img src="${event.target.result}" class="h-full w-full object-cover" alt="Profile preview">`;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    // Click on profile preview to trigger file input
+    profilePreview.addEventListener('click', function() {
+      profileUpload.click();
+    });
+  }
+
+  // Simple table sorting (for demonstration)
+  function sortTable(columnIndex) {
+    alert(`Sorting by column ${columnIndex} would be implemented here`);
+    // In a real app, you would sort the instructors array and reload the table
+  }
+</script>
+</body>
+</html>

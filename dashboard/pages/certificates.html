@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Certificates | FAMA Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+    ::-webkit-scrollbar-thumb {
+      background-color: rgb(59 130 246);
+      border-radius: 10px;
+      border: 2px solid #f1f1f1;
+    }
+    .active-nav {
+      background-color: rgb(239 246 255);
+      border-left: 4px solid rgb(59 130 246);
+    }
+    .certificate-card {
+      transition: all 0.2s ease;
+    }
+    .certificate-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+    .certificate-preview {
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    }
+    .certificate-badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body class="bg-white text-gray-800 font-sans">
+
+<!-- Sidebar -->
+<aside class="fixed top-0 left-0 w-64 h-screen bg-white shadow-lg flex flex-col border-r border-gray-200">
+  <div class="flex items-center justify-center h-20 border-b border-gray-200 px-6">
+    <h1 class="text-2xl font-extrabold text-blue-500 tracking-wide">FAMA Dashboard</h1>
+  </div>
+  <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
+    <a href="../dash.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">📊 Dashboard</a>
+    <a href="students.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">👥 Students</a>
+    <a href="instructors.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">👩‍🏫 Instructors</a>
+    <a href="courses.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">📚 Courses</a>
+    <a href="events.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">🗓️ Events</a>
+    <a href="quizzes.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">🧪 Quizzes / Challenges</a>
+    <a href="certificates.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold active-nav">🎓 Certificates</a>
+    <a href="forum.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">💬 Forum / Community</a>
+    <a href="#" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">📢 Announcements</a>
+    <a href="reports.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">📈 Reports</a>
+    <a href="settings.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">⚙️ Settings</a>
+  </nav>
+  <div class="px-4 py-4 border-t border-gray-200">
+    <button id="logoutBtn" class="w-full bg-[#FACC15] text-gray-900 py-2 rounded font-bold hover:bg-[#EAB308] transition">
+      Logout
+    </button>
+  </div>
+</aside>
+
+<main class="ml-64 min-h-screen p-8">
+  <header class="flex flex-col sm:flex-row justify-between items-center mb-8">
+    <div>
+      <h1 class="text-3xl font-bold">Certificate Management</h1>
+      <p class="text-gray-600 mt-2">Generate, track, and manage completion certificates</p>
+    </div>
+    <div class="flex space-x-3 mt-4 sm:mt-0">
+      <button onclick="openCertificateModal()" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center transition-all shadow-md hover:shadow-lg">
+        <i class="fas fa-plus mr-2"></i> New Template
+      </button>
+      <button class="bg-[#FACC15] hover:bg-[#EAB308] text-gray-900 px-4 py-2 rounded-lg flex items-center transition-all shadow-md hover:shadow-lg">
+        <i class="fas fa-certificate mr-2"></i> Bulk Generate
+      </button>
+    </div>
+  </header>
+
+  <!-- Stats Cards -->
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
+    <div class="bg-white rounded-lg shadow border border-gray-200 p-6 flex items-center">
+      <div class="bg-blue-100 p-3 rounded-full mr-4">
+        <i class="fas fa-certificate text-blue-500 text-xl"></i>
+      </div>
+      <div>
+        <p class="text-2xl font-bold">1,248</p>
+        <p class="text-gray-600">Certificates Issued</p>
+      </div>
+    </div>
+    <div class="bg-white rounded-lg shadow border border-gray-200 p-6 flex items-center">
+      <div class="bg-green-100 p-3 rounded-full mr-4">
+        <i class="fas fa-file-export text-green-500 text-xl"></i>
+      </div>
+      <div>
+        <p class="text-2xl font-bold">87%</p>
+        <p class="text-gray-600">Download Rate</p>
+      </div>
+    </div>
+    <div class="bg-white rounded-lg shadow border border-gray-200 p-6 flex items-center">
+      <div class="bg-purple-100 p-3 rounded-full mr-4">
+        <i class="fas fa-templates text-purple-500 text-xl"></i>
+      </div>
+      <div>
+        <p class="text-2xl font-bold">5</p>
+        <p class="text-gray-600">Active Templates</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Certificate Templates -->
+  <section class="mb-8">
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-xl font-bold">Certificate Templates</h2>
+      <div class="flex space-x-2">
+        <button class="px-3 py-1 bg-blue-500 text-white rounded-lg text-sm font-medium">All</button>
+        <button class="px-3 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-sm">Active</button>
+        <button class="px-3 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-sm">Archived</button>
+      </div>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Add New Template Card -->
+      <div onclick="openCertificateModal()" class="certificate-card border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-blue-500 cursor-pointer flex flex-col items-center justify-center h-full">
+        <div class="bg-blue-100 p-4 rounded-full mb-3">
+          <i class="fas fa-plus text-blue-500 text-xl"></i>
+        </div>
+        <p class="font-medium text-gray-700">Create New Template</p>
+        <p class="text-sm text-gray-500 mt-1">Design a custom certificate</p>
+      </div>
+      
+      <!-- Template Cards -->
+      <div class="certificate-card bg-white rounded-lg shadow border border-gray-200 overflow-hidden">
+        <div class="relative certificate-preview h-48 flex items-center justify-center">
+          <span class="certificate-badge text-blue-600">DEFAULT</span>
+          <div class="text-center p-4">
+            <div class="text-2xl font-bold mb-2 text-gray-800">Certificate of Completion</div>
+            <div class="text-gray-600">Presented to [Student Name]</div>
+          </div>
+        </div>
+        <div class="p-4">
+          <div class="flex justify-between items-start mb-2">
+            <h3 class="font-bold text-gray-800">Standard Certificate</h3>
+            <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">Active</span>
+          </div>
+          <p class="text-sm text-gray-600 mb-3">Used for 85% of issuances</p>
+          <div class="flex space-x-2">
+            <button class="text-blue-500 hover:text-blue-700 text-sm font-medium">Customize</button>
+            <button class="text-gray-500 hover:text-gray-700 text-sm font-medium">Preview</button>
+            <button class="text-gray-500 hover:text-gray-700 text-sm font-medium">Duplicate</button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="certificate-card bg-white rounded-lg shadow border border-gray-200 overflow-hidden">
+        <div class="relative certificate-preview h-48 flex items-center justify-center" style="background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%);">
+          <span class="certificate-badge text-purple-600">PREMIUM</span>
+          <div class="text-center p-4">
+            <div class="text-2xl font-bold mb-2 text-gray-800">Advanced Certification</div>
+            <div class="text-gray-600">With Honors</div>
+          </div>
+        </div>
+        <div class="p-4">
+          <div class="flex justify-between items-start mb-2">
+            <h3 class="font-bold text-gray-800">Honors Certificate</h3>
+            <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">Active</span>
+          </div>
+          <p class="text-sm text-gray-600 mb-3">For top 10% performers</p>
+          <div class="flex space-x-2">
+            <button class="text-blue-500 hover:text-blue-700 text-sm font-medium">Customize</button>
+            <button class="text-gray-500 hover:text-gray-700 text-sm font-medium">Preview</button>
+            <button class="text-gray-500 hover:text-gray-700 text-sm font-medium">Duplicate</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Recent Issuances -->
+  <section>
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-xl font-bold">Recent Certificate Issuances</h2>
+      <button class="text-blue-500 hover:text-blue-700 font-medium">View All</button>
+    </div>
+    
+    <div class="bg-white rounded-lg shadow border border-gray-200 overflow-hidden">
+      <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-blue-50">
+            <tr>
+              <th class="px-6 py-3 text-left text-xs font-medium text-blue-500 uppercase tracking-wider">Student</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-blue-500 uppercase tracking-wider">Course</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-blue-500 uppercase tracking-wider">Completion Date</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-blue-500 uppercase tracking-wider">Template</th>
+              <th class="px-6 py-3 text-right text-xs font-medium text-blue-500 uppercase tracking-wider">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            <tr class="hover:bg-blue-50">
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="flex items-center">
+                  <div class="flex-shrink-0 h-10 w-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-500 font-bold">
+                    AJ
+                  </div>
+                  <div class="ml-4">
+                    <div class="text-sm font-medium text-gray-900">Alice Johnson</div>
+                    <div class="text-sm text-gray-500">alice@example.com</div>
+                  </div>
+                </div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm text-gray-900">Advanced Web Development</div>
+                <div class="text-sm text-gray-500">Completed: 92%</div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                Jun 12, 2023
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <span class="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800">Standard</span>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                <button class="text-blue-500 hover:text-blue-700 mr-3"><i class="fas fa-download"></i></button>
+                <button class="text-blue-500 hover:text-blue-700 mr-3"><i class="fas fa-envelope"></i></button>
+                <button class="text-blue-500 hover:text-blue-700"><i class="fas fa-print"></i></button>
+              </td>
+            </tr>
+            
+            <tr class="hover:bg-blue-50">
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="flex items-center">
+                  <div class="flex-shrink-0 h-10 w-10 bg-green-100 rounded-full flex items-center justify-center text-green-500 font-bold">
+                    MC
+                  </div>
+                  <div class="ml-4">
+                    <div class="text-sm font-medium text-gray-900">Michael Chen</div>
+                    <div class="text-sm text-gray-500">michael@example.com</div>
+                  </div>
+                </div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm text-gray-900">Data Science Bootcamp</div>
+                <div class="text-sm text-gray-500">Completed: 98%</div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                Jun 10, 2023
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <span class="px-2 py-1 text-xs rounded-full bg-purple-100 text-purple-800">Honors</span>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                <button class="text-blue-500 hover:text-blue-700 mr-3"><i class="fas fa-download"></i></button>
+                <button class="text-blue-500 hover:text-blue-700 mr-3"><i class="fas fa-envelope"></i></button>
+                <button class="text-blue-500 hover:text-blue-700"><i class="fas fa-print"></i></button>
+              </td>
+            </tr>
+            
+            <tr class="hover:bg-blue-50">
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="flex items-center">
+                  <div class="flex-shrink-0 h-10 w-10 bg-yellow-100 rounded-full flex items-center justify-center text-yellow-500 font-bold">
+                    SW
+                  </div>
+                  <div class="ml-4">
+                    <div class="text-sm font-medium text-gray-900">Sarah Williams</div>
+                    <div class="text-sm text-gray-500">sarah@example.com</div>
+                  </div>
+                </div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm text-gray-900">UX Design Fundamentals</div>
+                <div class="text-sm text-gray-500">Completed: 87%</div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                Jun 8, 2023
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <span class="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800">Standard</span>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                <button class="text-blue-500 hover:text-blue-700 mr-3"><i class="fas fa-download"></i></button>
+                <button class="text-blue-500 hover:text-blue-700 mr-3"><i class="fas fa-envelope"></i></button>
+                <button class="text-blue-500 hover:text-blue-700"><i class="fas fa-print"></i></button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+      <!-- Pagination -->
+      <div class="bg-white px-6 py-3 flex items-center justify-between border-t border-gray-200">
+        <div class="flex-1 flex justify-between sm:hidden">
+          <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"> Previous </a>
+          <a href="#" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"> Next </a>
+        </div>
+        <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+          <div>
+            <p class="text-sm text-gray-700">
+              Showing <span class="font-medium">1</span> to <span class="font-medium">5</span> of <span class="font-medium">24</span> results
+            </p>
+          </div>
+          <div>
+            <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+              <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                <span class="sr-only">Previous</span>
+                <i class="fas fa-chevron-left"></i>
+              </a>
+              <a href="#" aria-current="page" class="z-10 bg-blue-50 border-blue-500 text-blue-500 relative inline-flex items-center px-4 py-2 border text-sm font-medium"> 1 </a>
+              <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium"> 2 </a>
+              <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium"> 3 </a>
+              <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                <span class="sr-only">Next</span>
+                <i class="fas fa-chevron-right"></i>
+              </a>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Certificate Modal -->
+  <div id="certificateModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-lg shadow-xl w-full max-w-4xl">
+      <div class="flex justify-between items-center border-b px-6 py-4">
+        <h3 class="text-lg font-bold">Create New Certificate Template</h3>
+        <button onclick="closeCertificateModal()" class="text-gray-500 hover:text-gray-700">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="p-6">
+        <form id="certificateForm">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="md:col-span-2">
+              <label class="block text-sm font-medium text-gray-700 mb-1">Template Name*</label>
+              <input type="text" class="w-full border rounded-lg px-3 py-2" placeholder="e.g., Standard Certificate" required>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Status*</label>
+              <select class="w-full border rounded-lg px-3 py-2" required>
+                <option value="active">Active</option>
+                <option value="draft">Draft</option>
+                <option value="archived">Archived</option>
+              </select>
+            </div>
+            <div class="md:col-span-3">
+              <label class="block text-sm font-medium text-gray-700 mb-1">Certificate Design</label>
+              <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center h-64 flex items-center justify-center">
+                <div class="text-center">
+                  <i class="fas fa-image text-4xl text-gray-400 mb-2"></i>
+                  <p class="text-gray-500">Upload or design your certificate</p>
+                  <button type="button" class="mt-2 text-blue-500 hover:text-blue-700 font-medium">
+                    Select Template
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="md:col-span-3">
+              <label class="block text-sm font-medium text-gray-700 mb-1">Certificate Fields</label>
+              <div class="space-y-2">
+                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                  <span>Student Name</span>
+                  <div class="flex items-center">
+                    <label class="inline-flex items-center mr-4">
+                      <input type="checkbox" class="form-checkbox text-blue-500" checked>
+                      <span class="ml-2">Visible</span>
+                    </label>
+                    <button class="text-gray-500 hover:text-gray-700">
+                      <i class="fas fa-cog"></i>
+                    </button>
+                  </div>
+                </div>
+                <!-- More fields... -->
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="flex justify-end space-x-3 border-t px-6 py-4">
+        <button onclick="closeCertificateModal()" class="px-4 py-2 border rounded-lg text-gray-700 hover:bg-gray-50">Cancel</button>
+        <button onclick="saveCertificate()" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">Save Template</button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+  // Certificate functionality
+  function openCertificateModal() {
+    document.getElementById('certificateModal').classList.remove('hidden');
+  }
+  
+  function closeCertificateModal() {
+    document.getElementById('certificateModal').classList.add('hidden');
+  }
+  
+  function saveCertificate() {
+    // Add validation and save logic here
+    alert('Certificate template saved successfully!');
+    closeCertificateModal();
+  }
+  
+  // Logout button
+  document.getElementById('logoutBtn').addEventListener('click', function() {
+    alert('Logging out...');
+    // In a real app, this would redirect to logout
+    // window.location.href = '/logout';
+  });
+</script>
+</body>
+</html>

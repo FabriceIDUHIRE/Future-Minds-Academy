@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Report</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+    ::-webkit-scrollbar-thumb {
+      background-color: rgb(59 130 246); /* blue-500 */
+      border-radius: 10px;
+      border: 2px solid #f1f1f1;
+    }
+    /* Chart Styles */
+    .bar {
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    .bar:hover {
+      fill: rgb(29 78 216); /* blue-700 */
+    }
+    .pie-slice:hover {
+      opacity: 0.7;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body class="bg-white text-gray-800 font-sans">
+
+<aside class="fixed top-0 left-0 w-64 h-screen bg-white shadow-lg flex flex-col border-r border-gray-200">
+  <div class="flex items-center justify-center h-20 border-b border-gray-200 px-6">
+    <h1 class="text-2xl font-extrabold text-blue-500 tracking-wide">FAMA Dashboard</h1>
+  </div>
+  <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
+    <a href="../dash.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">📊 Dashboard</a>
+    <a href="students.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">👥 Students</a>
+    <a href="instructors.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">👩‍🏫 Instructors</a>
+    <a href="courses.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">📚 Courses</a>
+    
+    <a href="events.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">🗓️ Events</a>
+    <a href="quizzes.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">🧪 Quizzes / Challenges</a>
+    <a href="certificates.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">🎓 Certificates</a>
+    <a href="forum.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">💬 Forum / Community</a>
+    <a href="#" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">📢 Announcements</a>
+    <a href="reports.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold active-nav">📈 Reports</a>
+    <a href="settings.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">⚙️ Settings</a>
+  </nav>
+  <div class="px-4 py-4 border-t border-gray-200">
+    <button id="logoutBtn" class="w-full bg-[#FACC15] text-gray-900 py-2 rounded font-bold hover:bg-[#EAB308] transition">
+      Logout
+    </button>
+  </div>
+</aside>
+
+<main class="ml-64 min-h-screen p-8">
+  <header class="flex flex-col sm:flex-row justify-between items-center mb-8">
+    <div>
+      <h1 class="text-3xl font-bold">Analytics Dashboard</h1>
+      <p class="text-gray-600 mt-2">Key metrics and performance indicators</p>
+    </div>
+    <div class="flex space-x-3 mt-4 sm:mt-0">
+      <select class="border rounded-lg px-3 py-2">
+        <option>Last 7 Days</option>
+        <option>Last 30 Days</option>
+        <option selected>Last 6 Months</option>
+      </select>
+      <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded flex items-center">
+        <i class="fas fa-download mr-2"></i> Export
+      </button>
+    </div>
+  </header>
+
+  <!-- Metrics Overview -->
+  <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <div class="bg-white rounded-lg shadow border border-gray-200 p-6">
+      <p class="text-gray-600 mb-1">Total Enrollment</p>
+      <p class="text-3xl font-bold">1,842</p>
+      <p class="text-green-500 text-sm mt-1"><i class="fas fa-arrow-up mr-1"></i> 12% from last period</p>
+    </div>
+    <!-- More metric cards... -->
+  </section>
+
+  <!-- Charts -->
+  <section class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+    <div class="bg-white rounded-lg shadow border border-gray-200 p-6">
+      <h3 class="font-bold mb-4">Enrollment Growth</h3>
+      <canvas id="enrollmentChart" height="300"></canvas>
+    </div>
+    <div class="bg-white rounded-lg shadow border border-gray-200 p-6">
+      <h3 class="font-bold mb-4">Course Popularity</h3>
+      <canvas id="courseChart" height="300"></canvas>
+    </div>
+  </section>
+
+  <!-- Student Activity -->
+  <section class="bg-white rounded-lg shadow border border-gray-200 p-6">
+    <h3 class="font-bold mb-4">Top Active Students</h3>
+    <div class="overflow-x-auto">
+      <table class="min-w-full">
+        <thead class="bg-blue-50">
+          <tr>
+            <th class="px-6 py-3 text-left text-blue-500">Student</th>
+            <th class="px-6 py-3 text-left text-blue-500">Courses</th>
+            <th class="px-6 py-3 text-left text-blue-500">Completed</th>
+            <th class="px-6 py-3 text-left text-blue-500">Activity Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-b hover:bg-blue-50">
+            <td class="px-6 py-4">Michael Chen</td>
+            <td class="px-6 py-4">3</td>
+            <td class="px-6 py-4">12/15</td>
+            <td class="px-6 py-4">
+              <div class="flex items-center">
+                <div class="w-full bg-gray-200 rounded-full h-2.5 mr-2">
+                  <div class="bg-blue-500 h-2.5 rounded-full" style="width: 92%"></div>
+                </div>
+                <span>92%</span>
+              </div>
+            </td>
+          </tr>
+          <!-- More rows... -->
+        </tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  // Enrollment Chart
+  const enrollmentCtx = document.getElementById('enrollmentChart').getContext('2d');
+  new Chart(enrollmentCtx, {
+    type: 'line',
+    data: {
+      labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+      datasets: [{
+        label: 'New Students',
+        data: [120, 190, 170, 220, 260, 300],
+        borderColor: '#3B82F6',
+        tension: 0.1
+      }]
+    }
+  });
+</script>

@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings | FAMA Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* Custom styles from dashboard */
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #f1f1f1; }
+    ::-webkit-scrollbar-thumb { background-color: rgb(59 130 246); border-radius: 10px; }
+    .active-nav { background-color: rgb(239 246 255); border-left: 4px solid rgb(59 130 246); }
+    .settings-card {
+      transition: all 0.2s ease;
+    }
+    .settings-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+  </style>
+</head>
+<body class="bg-white text-gray-800 font-sans">
+
+  <!-- Sidebar -->
+  <aside class="fixed top-0 left-0 w-64 h-screen bg-white shadow-lg flex flex-col border-r border-gray-200">
+    <div class="flex items-center justify-center h-20 border-b border-gray-200 px-6">
+      <h1 class="text-2xl font-extrabold text-blue-500 tracking-wide">FAMA Dashboard</h1>
+    </div>
+    <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
+      <a href="../dash.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">📊 Dashboard</a>
+      <a href="students.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">👥 Students</a>
+      <a href="instructors.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">👩‍🏫 Instructors</a>
+      <a href="courses.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">📚 Courses</a>
+      <a href="events.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">🗓️ Events</a>
+      <a href="quizzes.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">🧪 Quizzes / Challenges</a>
+      <a href="certificates.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">🎓 Certificates</a>
+      <a href="forum.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">💬 Forum / Community</a>
+      <a href="#" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">📢 Announcements</a>
+      <a href="reports.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">📈 Reports</a>
+      <a href="settings.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold active-nav">⚙️ Settings</a>
+    </nav>
+    <div class="px-4 py-4 border-t border-gray-200">
+      <button id="logoutBtn" class="w-full bg-[#FACC15] text-gray-900 py-2 rounded font-bold hover:bg-[#EAB308] transition">
+        Logout
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="ml-64 min-h-screen p-8">
+    <!-- Header -->
+    <header class="flex flex-col sm:flex-row justify-between items-center mb-8">
+      <div>
+        <h1 class="text-3xl font-bold">System Settings</h1>
+        <p class="text-gray-600 mt-2">Configure platform preferences and system options</p>
+      </div>
+      <div class="flex space-x-3 mt-4 sm:mt-0">
+        <button class="bg-[#FACC15] hover:bg-[#EAB308] text-gray-900 px-4 py-2 rounded flex items-center">
+          <i class="fas fa-save mr-2"></i> Save All Changes
+        </button>
+      </div>
+    </header>
+
+    <!-- Settings Tabs -->
+    <div class="mb-6 border-b border-gray-200">
+      <nav class="-mb-px flex space-x-8">
+        <button id="generalTab" class="border-b-2 border-blue-500 text-blue-500 px-4 py-3 text-sm font-medium">
+          <i class="fas fa-cog mr-2"></i> General
+        </button>
+        <button id="appearanceTab" class="border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 px-4 py-3 text-sm font-medium">
+          <i class="fas fa-paint-brush mr-2"></i> Appearance
+        </button>
+        <button id="notificationsTab" class="border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 px-4 py-3 text-sm font-medium">
+          <i class="fas fa-bell mr-2"></i> Notifications
+        </button>
+        <button id="securityTab" class="border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 px-4 py-3 text-sm font-medium">
+          <i class="fas fa-shield-alt mr-2"></i> Security
+        </button>
+        <button id="integrationsTab" class="border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 px-4 py-3 text-sm font-medium">
+          <i class="fas fa-plug mr-2"></i> Integrations
+        </button>
+      </nav>
+    </div>
+
+    <!-- General Settings (Default Tab) -->
+    <div id="generalSettings" class="settings-tab">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Platform Settings Card -->
+        <div class="bg-white rounded-lg shadow border border-gray-200 p-6 settings-card">
+          <div class="flex items-center mb-4">
+            <div class="bg-blue-100 p-3 rounded-full mr-3">
+              <i class="fas fa-cog text-blue-500"></i>
+            </div>
+            <h3 class="text-lg font-bold">Platform Settings</h3>
+          </div>
+          
+          <div class="space-y-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Platform Name</label>
+              <input type="text" value="FAMA Learning" class="w-full border rounded-lg px-3 py-2">
+            </div>
+            
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Timezone</label>
+              <select class="w-full border rounded-lg px-3 py-2">
+                <option>(UTC+00:00) London</option>
+                <option selected>(UTC+01:00) Paris</option>
+                <option>(UTC-05:00) New York</option>
+              </select>
+            </div>
+            
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Date Format</label>
+              <select class="w-full border rounded-lg px-3 py-2">
+                <option>DD/MM/YYYY</option>
+                <option selected>MM/DD/YYYY</option>
+                <option>YYYY-MM-DD</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- User Registration Card -->
+        <div class="bg-white rounded-lg shadow border border-gray-200 p-6 settings-card">
+          <div class="flex items-center mb-4">
+            <div class="bg-green-100 p-3 rounded-full mr-3">
+              <i class="fas fa-user-plus text-green-500"></i>
+            </div>
+            <h3 class="text-lg font-bold">User Registration</h3>
+          </div>
+          
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Allow Public Registration</label>
+                <p class="text-xs text-gray-500">Anyone can create an account</p>
+              </div>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" class="sr-only peer" checked>
+                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-500"></div>
+              </label>
+            </div>
+            
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Default User Role</label>
+              <select class="w-full border rounded-lg px-3 py-2">
+                <option>Student</option>
+                <option selected>Learner</option>
+                <option>Member</option>
+              </select>
+            </div>
+            
+            <div class="flex items-center justify-between">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Require Email Verification</label>
+                <p class="text-xs text-gray-500">Users must verify their email</p>
+              </div>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" class="sr-only peer" checked>
+                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-500"></div>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- System Maintenance Card -->
+        <div class="bg-white rounded-lg shadow border border-gray-200 p-6 settings-card">
+          <div class="flex items-center mb-4">
+            <div class="bg-yellow-100 p-3 rounded-full mr-3">
+              <i class="fas fa-tools text-yellow-500"></i>
+            </div>
+            <h3 class="text-lg font-bold">System Maintenance</h3>
+          </div>
+          
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Maintenance Mode</label>
+                <p class="text-xs text-gray-500">Take the system offline</p>
+              </div>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" class="sr-only peer">
+                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-500"></div>
+              </label>
+            </div>
+            
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Maintenance Message</label>
+              <textarea class="w-full border rounded-lg px-3 py-2" rows="3" disabled>We're currently performing scheduled maintenance. Please check back soon.</textarea>
+            </div>
+            
+            <button class="w-full bg-gray-100 hover:bg-gray-200 text-gray-800 py-2 px-4 rounded-lg flex items-center justify-center">
+              <i class="fas fa-download mr-2"></i> Backup Database
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Appearance Settings (Hidden by default) -->
+    <div id="appearanceSettings" class="settings-tab hidden">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Theme Settings Card -->
+        <div class="bg-white rounded-lg shadow border border-gray-200 p-6 settings-card">
+          <div class="flex items-center mb-4">
+            <div class="bg-purple-100 p-3 rounded-full mr-3">
+              <i class="fas fa-palette text-purple-500"></i>
+            </div>
+            <h3 class="text-lg font-bold">Theme Settings</h3>
+          </div>
+          
+          <div class="space-y-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Primary Color</label>
+              <div class="flex space-x-2">
+                <div class="w-8 h-8 rounded-full bg-blue-500 border-2 border-blue-600 cursor-pointer" title="Blue"></div>
+                <div class="w-8 h-8 rounded-full bg-green-500 border-2 border-gray-200 cursor-pointer" title="Green"></div>
+                <div class="w-8 h-8 rounded-full bg-purple-500 border-2 border-gray-200 cursor-pointer" title="Purple"></div>
+                <div class="w-8 h-8 rounded-full bg-red-500 border-2 border-gray-200 cursor-pointer" title="Red"></div>
+                <div class="w-8 h-8 rounded-full bg-yellow-500 border-2 border-gray-200 cursor-pointer" title="Yellow"></div>
+                <div class="w-8 h-8 rounded-full bg-indigo-500 border-2 border-gray-200 cursor-pointer" title="Indigo"></div>
+              </div>
+            </div>
+            
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Theme Mode</label>
+              <div class="flex space-x-4">
+                <label class="inline-flex items-center">
+                  <input type="radio" name="themeMode" class="form-radio text-blue-500" checked>
+                  <span class="ml-2">Light</span>
+                </label>
+                <label class="inline-flex items-center">
+                  <input type="radio" name="themeMode" class="form-radio text-blue-500">
+                  <span class="ml-2">Dark</span>
+                </label>
+                <label class="inline-flex items-center">
+                  <input type="radio" name="themeMode" class="form-radio text-blue-500">
+                  <span class="ml-2">System</span>
+                </label>
+              </div>
+            </div>
+            
+            <div class="flex items-center justify-between">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Rounded Corners</label>
+                <p class="text-xs text-gray-500">Apply rounded UI elements</p>
+              </div>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" class="sr-only peer" checked>
+                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-500"></div>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Logo & Branding Card -->
+        <div class="bg-white rounded-lg shadow border border-gray-200 p-6 settings-card lg:col-span-2">
+          <div class="flex items-center mb-4">
+            <div class="bg-pink-100 p-3 rounded-full mr-3">
+              <i class="fas fa-image text-pink-500"></i>
+            </div>
+            <h3 class="text-lg font-bold">Logo & Branding</h3>
+          </div>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Logo</label>
+              <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
+                <div class="flex justify-center mb-2">
+                  <div class="h-16 w-16 bg-blue-100 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-image text-blue-400 text-xl"></i>
+                  </div>
+                </div>
+                <p class="text-xs text-gray-500 mb-2">PNG, JPG up to 2MB</p>
+                <button class="text-sm text-blue-500 hover:text-blue-700 font-medium">
+                  Upload New Logo
+                </button>
+              </div>
+            </div>
+            
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Favicon</label>
+              <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
+                <div class="flex justify-center mb-2">
+                  <div class="h-10 w-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-flag text-blue-400"></i>
+                  </div>
+                </div>
+                <p class="text-xs text-gray-500 mb-2">ICO, PNG up to 100KB</p>
+                <button class="text-sm text-blue-500 hover:text-blue-700 font-medium">
+                  Upload New Favicon
+                </button>
+              </div>
+            </div>
+            
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Brand Color</label>
+              <div class="flex items-center">
+                <div class="w-8 h-8 rounded-full bg-blue-500 mr-2"></div>
+                <input type="text" value="#3B82F6" class="border rounded-lg px-3 py-2 w-24">
+              </div>
+            </div>
+            
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Copyright Text</label>
+              <input type="text" value="© 2023 FAMA Learning. All rights reserved." class="w-full border rounded-lg px-3 py-2">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Notifications Settings (Hidden by default) -->
+    <div id="notificationsSettings" class="settings-tab hidden">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Email Notifications Card -->
+        <div class="bg-white rounded-lg shadow border border-gray-200 p-6 settings-card">
+          <div class="flex items-center mb-4">
+            <div class="bg-red-100 p-3 rounded-full mr-3">
+              <i class="fas fa-envelope text-red-500"></i>
+            </div>
+            <h3 class="text-lg font-bold">Email Notifications</h3>
+          </div>
+          
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">System Emails</label>
+                <p class="text-xs text-gray-500">Account updates, security alerts</p>
+              </div>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" class="sr-only peer" checked>
+                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-500"></div>
+              </label>
+            </div>
+            
+            <div class="flex items-center justify-between">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Course Announcements</label>
+                <p class="text-xs text-gray-500">New content, deadlines</p>
+              </div>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" class="sr-only peer" checked>
+                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-500"></div>
+              </label>
+            </div>
+            
+            <div class="flex items-center justify-between">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Discussion Notifications</label>
+                <p class="text-xs text-gray-500">Forum replies, mentions</p>
+              </div>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" class="sr-only peer" checked>
+                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-500"></div>
+              </label>
+            </div>
+            
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">From Email Address</label>
+              <input type="email" value="noreply@fama-learning.com" class="w-full border rounded-lg px-3 py-2">
+            </div>
+            
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">From Name</label>
+              <input type="text" value="FAMA Learning" class="w-full border rounded-lg px-3 py-2">
+            </div>
+          </div>
+        </div>
+
+        <!-- Push Notifications Card -->
+        <div class="bg-white rounded-lg shadow border border-gray-200 p-6 settings-card">
+          <div class="flex items-center mb-4">
+            <div class="bg-orange-100 p-3 rounded-full mr-3">
+              <i class="fas fa-mobile-alt text-orange-500"></i>
+            </div>
+            <h3 class="text-lg font-bold">Push Notifications</h3>
+          </div>
+          
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Enable Push Notifications</label>
+                <p class="text-xs text-gray-500">Browser and mobile notifications</p>
+              </div>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" class="sr-only peer" checked>
+                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-500"></div>
+              </label>
+            </div>
+            
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Notification Sound</label>
+              <select class="w-full border rounded-lg px-3 py-2">
+                <option>Default</option>
+                <option selected>Chime</option>
+                <option>Bell</option>
+                <option>None</option>
+              </select>
+            </div>
+            
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Notification Preview</label>
+              <div class="border rounded-lg p-3 bg-gray-50">
+                <div class="flex items-start">
+                  <div class="flex-shrink-0 h-10 w-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-500">
+                    <i class="fas fa-bell"></i>
+                  </div>
+                  <div class="ml-3">
+                    <p class="text-sm font-medium text-gray-900">New message</p>
+                    <p class="text-sm text-gray-500">You have a new forum reply</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="flex items-center justify-between">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Vibrate on Notification</label>
+                <p class="text-xs text-gray-500">Mobile devices only</p>
+              </div>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" class="sr-only peer">
+                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-500"></div>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Security Settings (Hidden by default) -->
+    <div id="securitySettings" class="settings-tab hidden">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Authentication Card -->
+        <div class="bg-white rounded-lg shadow border border-gray-200 p-6 settings-card">
+          <div class="flex items-center mb-4">
+            <div class="bg-blue-100 p-3 rounded-full mr-3">
+              <i class="fas fa-lock text-blue-500"></i>
+            </div>
+            <h3 class="text-lg font-bold">Authentication</h3>
+          </div>
+          
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Require Strong Passwords</label>
+                <p class="text-xs text-gray-500">Minimum 8 characters, special chars</p>
+              </div>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" class="sr-only peer" checked>
+                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-500"></div>
+              </label>
+            </div>
+            
+            <div class="flex items-center justify-between">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Two-Factor Authentication</label>
+                <p class="text-xs text-gray-500">Require 2FA for all users</p>
+              </div>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" class="sr-only peer">
+                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-500"></div>
+              </label>
+            </div>
+            
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Session Timeout</label>
+              <select class="w-full border rounded-lg px-3 py-2">
+                <option>15 minutes</option>
+                <option>30 minutes</option>
+                <option selected>1 hour</option>
+                <option>2 hours</option>
+                <option>Never</option>
+              </select>
+            </div>
+            
+            <div class="flex items-center justify-between">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Login Attempts Limit</label>
+                <p class="text-xs text-gray-500">Lock account after failed attempts</p>
+              </div>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" class="sr-only peer" checked>
+                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-500"></div>
+              </label>
+            </div>
+            
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Failed Attempts Before Lock</label>
+              <input type="number" value="5" min="1" class="w-20 border rounded-lg px-3 py-2">
+            </div>
+          </div>
+        </div>
+
+        <!-- Privacy & Compliance Card -->
+        <div class="bg-white rounded-lg shadow border border-gray-200 p-6 settings-card">
+          <div class="flex items-center mb-4">
+            <div class="bg-green-100 p-3 rounded-full mr-3">
+              <i class="fas fa-shield-alt text-green-500"></i>
+            </div>
+            <h3 class="text-lg font-bold">Privacy & Compliance</h3>
+          </div>
+          
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">GDPR Compliance</label>
+                <p class="text-xs text-gray-500">Enable GDPR features</p>
+              </div>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" class="sr-only peer" checked>
+                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-500"></div>
+              </label>
+            </div>
+            
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Privacy Policy URL</label>
+              <input type="url" value="https://fama-learning.com/privacy" class="w-full border rounded-lg px-3 py-2">
+            </div>
+            
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Terms of Service URL</label>
+              <input type="url" value="https://fama-learning.com/terms" class="w-full border rounded-lg px-3 py-2">
+            </div>
+            
+            <div class="flex items-center justify-between">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Data Retention Policy</label>
+                <p class="text-xs text-gray-500">Automatically delete old data</p>
+              </div>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" class="sr-only peer">
+                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-500"></div>
+              </label>
+            </div>
+            
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Retention Period (months)</label>
+              <input type="number" value="12" min="1" class="w-20 border rounded-lg px-3 py-2" disabled>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Integrations Settings (Hidden by default) -->
+    <div id="integrationsSettings" class="settings-tab hidden">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Payment Gateway Card -->
+        <div class="bg-white rounded-lg shadow border border-gray-200 p-6 settings-card">
+          <div class="flex items-center mb-4">
+            <div class="bg-purple-100 p-3 rounded-full mr-3">
+              <i class="fas fa-credit-card text-purple-500"></i>
+            </div>
+            <h3 class="text-lg font-bold">Payment Gateway</h3>
+          </div>
+          
+          <div class="space-y-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Payment Processor</label>
+              <select class="w-full border rounded-lg px-3 py-2">
+                <option>Stripe</option>
+                <option selected>PayPal</option>
+                <option>Razorpay</option>
+              </select>
+            </div>
+            
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">PayPal Email</label>
+              <input type="email" value="payments@fama-learning.com" class="w-full border rounded-lg px-3 py-2">
+            </div>
+            
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">API Key</label>
+              <input type="password" value="sk_test_51H..." class="w-full border rounded-lg px-3 py-2">
+            </div>
+            
+            <div class="flex items-center justify-between">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Test Mode</label>
+                <p class="text-xs text-gray-500">Use sandbox environment</p>
+              </div>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" class="sr-only peer" checked>
+                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-500"></div>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Google Analytics Card -->
+        <div class="bg-white rounded-lg shadow border border-gray-200 p-6 settings-card">
+          <div class="flex items-center mb-4">
+            <div class="bg-blue-100 p-3 rounded-full mr-3">
+              <i class="fas fa-chart-line text-blue-500"></i>
+            </div>
+            <h3 class="text-lg font-bold">Google Analytics</h3>
+          </div>
+          
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Enable Analytics</label>
+                <p class="text-xs text-gray-500">Track visitor behavior</p>
+              </div>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" class="sr-only peer" checked>
+                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-500"></div>
+              </label>
+            </div>
+            
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Tracking ID</label>
+              <input type="text" value="UA-12345678-1" class="w-full border rounded-lg px-3 py-2">
+            </div>
+            
+            <div class="flex items-center justify-between">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Anonymize IP</label>
+                <p class="text-xs text-gray-500">GDPR compliance</p>
+              </div>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" class="sr-only peer" checked>
+                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-500"></div>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- SMTP Email Card -->
+        <div class="bg-white rounded-lg shadow border border-gray-200 p-6 settings-card">
+          <div class="flex items-center mb-4">
+            <div class="bg-red-100 p-3 rounded-full mr-3">
+              <i class="fas fa-envelope-open-text text-red-500"></i>
+            </div>
+            <h3 class="text-lg font-bold">SMTP Email</h3>
+          </div>
+          
+          <div class="space-y-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">SMTP Host</label>
+              <input type="text" value="smtp.fama-learning.com" class="w-full border rounded-lg px-3 py-2">
+            </div>
+            
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">SMTP Port</label>
+              <input type="number" value="587" class="w-full border rounded-lg px-3 py-2">
+            </div>
+            
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">SMTP Username</label>
+              <input type="text" value="noreply@fama-learning.com" class="w-full border rounded-lg px-3 py-2">
+            </div>
+            
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">SMTP Password</label>
+              <input type="password" value="••••••••" class="w-full border rounded-lg px-3 py-2">
+            </div>
+            
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Encryption</label>
+              <select class="w-full border rounded-lg px-3 py-2">
+                <option>None</option>
+                <option selected>STARTTLS</option>
+                <option>SSL/TLS</option>
+              </select>
+            </div>
+            
+            <button class="w-full bg-blue-100 hover:bg-blue-200 text-blue-700 py-2 px-4 rounded-lg flex items-center justify-center">
+              <i class="fas fa-paper-plane mr-2"></i> Test SMTP Connection
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Tab switching functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const tabs = {
+        general: document.getElementById('generalTab'),
+        appearance: document.getElementById('appearanceTab'),
+        notifications: document.getElementById('notificationsTab'),
+        security: document.getElementById('securityTab'),
+        integrations: document.getElementById('integrationsTab')
+      };
+      
+      const tabContents = {
+        general: document.getElementById('generalSettings'),
+        appearance: document.getElementById('appearanceSettings'),
+        notifications: document.getElementById('notificationsSettings'),
+        security: document.getElementById('securitySettings'),
+        integrations: document.getElementById('integrationsSettings')
+      };
+      
+      // Set default tab
+      setActiveTab('general');
+      
+      // Add click event listeners
+      Object.keys(tabs).forEach(tabKey => {
+        tabs[tabKey].addEventListener('click', () => setActiveTab(tabKey));
+      });
+      
+      function setActiveTab(activeTab) {
+        // Reset all tabs
+        Object.keys(tabs).forEach(tabKey => {
+          tabs[tabKey].classList.remove('border-blue-500', 'text-blue-500');
+          tabs[tabKey].classList.add('border-transparent', 'text-gray-500', 'hover:text-gray-700', 'hover:border-gray-300');
+          tabContents[tabKey].classList.add('hidden');
+        });
+        
+        // Set active tab
+        tabs[activeTab].classList.remove('border-transparent', 'text-gray-500', 'hover:text-gray-700', 'hover:border-gray-300');
+        tabs[activeTab].classList.add('border-blue-500', 'text-blue-500');
+        tabContents[activeTab].classList.remove('hidden');
+      }
+      
+      // Logout button
+      document.getElementById('logoutBtn').addEventListener('click', function() {
+        alert('Logging out...');
+        // In a real app, this would redirect to logout
+        // window.location.href = '/logout';
+      });
+    });
+  </script>
+</body>
+</html>
