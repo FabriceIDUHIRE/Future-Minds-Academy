@@ -1,347 +1,713 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Announcements | FAMA Dashboard</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Announcements</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
   <style>
-    /* Custom scrollbar */
-    ::-webkit-scrollbar {
-      width: 8px;
-      height: 8px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #f1f1f1;
-    }
-    ::-webkit-scrollbar-thumb {
-      background-color: rgb(59 130 246);
-      border-radius: 10px;
-      border: 2px solid #f1f1f1;
-    }
-    .active-nav {
-      background-color: rgb(239 246 255);
-      border-left: 4px solid rgb(59 130 246);
-    }
-    .announcement-card {
-      transition: all 0.2s ease;
-    }
-    .announcement-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    }
-    .priority-high {
-      border-left: 4px solid #ef4444;
-    }
-    .priority-medium {
-      border-left: 4px solid #f59e0b;
-    }
-    .priority-low {
-      border-left: 4px solid #10b981;
-    }
-    .unread-dot {
-      width: 8px;
-      height: 8px;
-      background-color: #3b82f6;
-      border-radius: 50%;
-      display: inline-block;
-    }
+    /* Custom styles from dashboard */
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #f1f1f1; }
+    ::-webkit-scrollbar-thumb { background-color: rgb(59 130 246); border-radius: 10px; }
+    .active-nav { background-color: rgb(239 246 255); border-left: 4px solid rgb(59 130 246); }
+    .active-category { background-color: rgb(59 130 246); color: white; }
+    .flatpickr-input { width: 100%; border: 1px solid #d1d5db; border-radius: 0.5rem; padding: 0.5rem 0.75rem; }
   </style>
 </head>
 <body class="bg-white text-gray-800 font-sans">
-
-<!-- Sidebar -->
-<aside class="fixed top-0 left-0 w-64 h-screen bg-white shadow-lg flex flex-col border-r border-gray-200">
-  <div class="flex items-center justify-center h-20 border-b border-gray-200 px-6">
-    <h1 class="text-2xl font-extrabold text-blue-500 tracking-wide">FAMA Dashboard</h1>
-  </div>
-  <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
-    <a href="../dash.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">📊 Dashboard</a>
-    <a href="students.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">👥 Students</a>
-    <a href="instructors.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">👩‍🏫 Instructors</a>
-    <a href="courses.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">📚 Courses</a>
-    <a href="events.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">🗓️ Events</a>
-    <a href="quizzes.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">🧪 Quizzes / Challenges</a>
-    <a href="certificates.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">🎓 Certificates</a>
-    <a href="forum.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">💬 Forum / Community</a>
-    <a href="announcements.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold active-nav">📢 Announcements</a>
-    <a href="reports.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">📈 Reports</a>
-    <a href="settings.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">⚙️ Settings</a>
-  </nav>
-  <div class="px-4 py-4 border-t border-gray-200">
-    <button id="logoutBtn" class="w-full bg-[#FACC15] text-gray-900 py-2 rounded font-bold hover:bg-[#EAB308] transition">
-      Logout
-    </button>
-  </div>
-</aside>
-
-<main class="ml-64 min-h-screen p-8">
-  <header class="flex flex-col sm:flex-row justify-between items-center mb-8">
-    <div>
-      <h1 class="text-3xl font-bold">Announcements</h1>
-      <p class="text-gray-600 mt-2">Manage and create important announcements for your community</p>
+  <!-- Sidebar -->
+  <aside class="fixed top-0 left-0 w-64 h-screen bg-white shadow-lg flex flex-col border-r border-gray-200">
+    <div class="flex items-center justify-center h-20 border-b border-gray-200 px-6">
+      <h1 class="text-2xl font-extrabold text-blue-500 tracking-wide">FAMA Dashboard</h1>
     </div>
-    <button onclick="openNewAnnouncementModal()" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center mt-4 sm:mt-0 transition-all shadow-md hover:shadow-lg">
-      <i class="fas fa-plus mr-2"></i> New Announcement
-    </button>
-  </header>
-
-  <!-- Stats Cards -->
-  <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
-    <div class="bg-white rounded-lg shadow border border-gray-200 p-6 flex items-center">
-      <div class="bg-blue-100 p-3 rounded-full mr-4">
-        <i class="fas fa-bullhorn text-blue-500 text-xl"></i>
-      </div>
-      <div>
-        <p class="text-2xl font-bold">24</p>
-        <p class="text-gray-600">Active Announcements</p>
-      </div>
-    </div>
-    <div class="bg-white rounded-lg shadow border border-gray-200 p-6 flex items-center">
-      <div class="bg-green-100 p-3 rounded-full mr-4">
-        <i class="fas fa-eye text-green-500 text-xl"></i>
-      </div>
-      <div>
-        <p class="text-2xl font-bold">87%</p>
-        <p class="text-gray-600">View Rate</p>
-      </div>
-    </div>
-    <div class="bg-white rounded-lg shadow border border-gray-200 p-6 flex items-center">
-      <div class="bg-purple-100 p-3 rounded-full mr-4">
-        <i class="fas fa-exclamation-triangle text-purple-500 text-xl"></i>
-      </div>
-      <div>
-        <p class="text-2xl font-bold">5</p>
-        <p class="text-gray-600">High Priority</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- Announcement Filters -->
-  <div class="bg-white rounded-lg shadow border border-gray-200 p-4 mb-6 flex flex-wrap items-center justify-between">
-    <div class="flex space-x-2 mb-2 sm:mb-0">
-      <button class="px-3 py-1 bg-blue-500 text-white rounded-lg text-sm font-medium">All</button>
-      <button class="px-3 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-sm">Unread</button>
-      <button class="px-3 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-sm">Important</button>
-      <button class="px-3 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-sm">Archived</button>
-    </div>
-    <div class="relative">
-      <input type="text" placeholder="Search announcements..." class="border rounded-lg px-3 py-1 pl-8 text-sm">
-      <i class="fas fa-search absolute left-3 top-2 text-gray-400"></i>
-    </div>
-  </div>
-
-  <!-- Announcement List -->
-  <div class="space-y-4">
-    <!-- Announcement 1 -->
-    <div class="announcement-card bg-white rounded-lg shadow border border-gray-200 p-6 priority-high">
-      <div class="flex justify-between items-start mb-3">
-        <div class="flex items-center">
-          <span class="unread-dot mr-2"></span>
-          <h3 class="font-bold text-lg text-gray-800">System Maintenance Scheduled</h3>
-          <span class="ml-3 bg-red-100 text-red-800 text-xs px-2 py-1 rounded-full">High Priority</span>
-        </div>
-        <div class="text-sm text-gray-500">Today, 10:30 AM</div>
-      </div>
-      <p class="text-gray-600 mb-4">We'll be performing scheduled maintenance this Saturday from 2:00 AM to 6:00 AM UTC. The platform will be unavailable during this time. Please plan your activities accordingly.</p>
-      <div class="flex items-center justify-between">
-        <div class="flex items-center text-sm text-gray-500">
-          <img src="https://randomuser.me/api/portraits/men/32.jpg" class="w-6 h-6 rounded-full mr-2" alt="Admin">
-          <span>Posted by Admin</span>
-          <span class="mx-2">•</span>
-          <span>Sent to All Users</span>
-        </div>
-        <div class="flex space-x-2">
-          <button class="text-blue-500 hover:text-blue-700 text-sm font-medium">Mark as Read</button>
-          <button class="text-gray-500 hover:text-gray-700 text-sm font-medium">Archive</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Announcement 2 -->
-    <div class="announcement-card bg-white rounded-lg shadow border border-gray-200 p-6 priority-medium">
-      <div class="flex justify-between items-start mb-3">
-        <div class="flex items-center">
-          <h3 class="font-bold text-lg text-gray-800">New Course: Advanced Data Science</h3>
-          <span class="ml-3 bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-full">Medium Priority</span>
-        </div>
-        <div class="text-sm text-gray-500">Yesterday, 3:45 PM</div>
-      </div>
-      <p class="text-gray-600 mb-4">We're excited to announce our new Advanced Data Science course is now available! Enroll now to learn cutting-edge techniques in machine learning and data analysis.</p>
-      <div class="flex items-center justify-between">
-        <div class="flex items-center text-sm text-gray-500">
-          <img src="https://randomuser.me/api/portraits/women/44.jpg" class="w-6 h-6 rounded-full mr-2" alt="Instructor">
-          <span>Posted by Dr. Sarah Johnson</span>
-          <span class="mx-2">•</span>
-          <span>Sent to Data Science Students</span>
-        </div>
-        <div class="flex space-x-2">
-          <button class="text-blue-500 hover:text-blue-700 text-sm font-medium">View Details</button>
-          <button class="text-gray-500 hover:text-gray-700 text-sm font-medium">Archive</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Announcement 3 -->
-    <div class="announcement-card bg-white rounded-lg shadow border border-gray-200 p-6">
-      <div class="flex justify-between items-start mb-3">
-        <h3 class="font-bold text-lg text-gray-800">Community Meetup Next Week</h3>
-        <div class="text-sm text-gray-500">Jun 12, 2023</div>
-      </div>
-      <p class="text-gray-600 mb-4">Join us for our monthly community meetup next Thursday at 6:00 PM. This month we'll be discussing career growth in tech and featuring guest speaker Mark Williams from TechCorp.</p>
-      <div class="flex items-center justify-between">
-        <div class="flex items-center text-sm text-gray-500">
-          <img src="https://randomuser.me/api/portraits/men/75.jpg" class="w-6 h-6 rounded-full mr-2" alt="Moderator">
-          <span>Posted by Community Team</span>
-          <span class="mx-2">•</span>
-          <span>Sent to Active Members</span>
-        </div>
-        <div class="flex space-x-2">
-          <button class="text-blue-500 hover:text-blue-700 text-sm font-medium">RSVP</button>
-          <button class="text-gray-500 hover:text-gray-700 text-sm font-medium">Archive</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Announcement 4 -->
-    <div class="announcement-card bg-white rounded-lg shadow border border-gray-200 p-6 priority-low">
-      <div class="flex justify-between items-start mb-3">
-        <div class="flex items-center">
-          <h3 class="font-bold text-lg text-gray-800">Survey: Help Improve Our Platform</h3>
-          <span class="ml-3 bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">Low Priority</span>
-        </div>
-        <div class="text-sm text-gray-500">Jun 10, 2023</div>
-      </div>
-      <p class="text-gray-600 mb-4">We value your feedback! Please take 5 minutes to complete our user experience survey and help us make FAMA even better.</p>
-      <div class="flex items-center justify-between">
-        <div class="flex items-center text-sm text-gray-500">
-          <img src="https://randomuser.me/api/portraits/women/63.jpg" class="w-6 h-6 rounded-full mr-2" alt="Support">
-          <span>Posted by UX Team</span>
-          <span class="mx-2">•</span>
-          <span>Sent to All Users</span>
-        </div>
-        <div class="flex space-x-2">
-          <button class="text-blue-500 hover:text-blue-700 text-sm font-medium">Take Survey</button>
-          <button class="text-gray-500 hover:text-gray-700 text-sm font-medium">Archive</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Pagination -->
-  <div class="mt-6 bg-white rounded-lg shadow border border-gray-200 p-4">
-    <nav class="flex items-center justify-between">
-      <button class="px-4 py-2 border rounded-lg text-gray-700 hover:bg-gray-50 disabled:opacity-50" disabled>
-        <i class="fas fa-chevron-left mr-2"></i> Previous
-      </button>
-      <div class="hidden sm:flex space-x-1">
-        <button class="px-4 py-2 bg-blue-500 text-white rounded-lg">1</button>
-        <button class="px-4 py-2 hover:bg-gray-100 rounded-lg">2</button>
-        <button class="px-4 py-2 hover:bg-gray-100 rounded-lg">3</button>
-        <span class="px-4 py-2">...</span>
-        <button class="px-4 py-2 hover:bg-gray-100 rounded-lg">5</button>
-      </div>
-      <button class="px-4 py-2 border rounded-lg text-gray-700 hover:bg-gray-50">
-        Next <i class="fas fa-chevron-right ml-2"></i>
-      </button>
+    <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
+      <a href="../dash.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">📊 Dashboard</a>
+      <a href="students.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">👥 Students</a>
+      <a href="instructors.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">👩‍🏫 Instructors</a>
+      <a href="courses.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">📚 Courses</a>
+      <a href="events.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">🗓️ Events</a>
+      <a href="quizzes.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">🧪 Quizzes / Challenges</a>
+      <a href="certificates.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">🎓 Certificates</a>
+      <a href="forum.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">💬 Forum / Community</a>
+      <a href="announcements.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold active-nav">📢 Announcements</a>
+      <a href="reports.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">📈 Reports</a>
+      <a href="settings.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">⚙️ Settings</a>
     </nav>
-  </div>
+    <div class="px-4 py-4 border-t border-gray-200">
+      <button id="logoutBtn" class="w-full bg-[#FACC15] text-gray-900 py-2 rounded font-bold hover:bg-[#EAB308] transition">
+        Logout
+      </button>
+    </div>
+  </aside>
+  
+  <main class="ml-64 min-h-screen p-8">
+    <header class="flex flex-col sm:flex-row justify-between items-center mb-8">
+      <div>
+        <h1 class="text-3xl font-bold">Announcements</h1>
+        <p class="text-gray-600 mt-2">Create and manage platform announcements</p>
+      </div>
+      <button onclick="openAnnouncementModal()" class="mt-4 sm:mt-0 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded flex items-center">
+        <i class="fas fa-plus mr-2"></i> New Announcement
+      </button>
+    </header>
 
-  <!-- New Announcement Modal -->
-  <div id="newAnnouncementModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-    <div class="bg-white rounded-lg shadow-xl w-full max-w-2xl">
-      <div class="flex justify-between items-center border-b px-6 py-4">
-        <h3 class="text-lg font-bold">Create New Announcement</h3>
-        <button onclick="closeNewAnnouncementModal()" class="text-gray-500 hover:text-gray-700">
-          <i class="fas fa-times"></i>
-        </button>
+    <!-- Stats Cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-6">
+      <div class="bg-white rounded-lg shadow border border-gray-200 p-6 flex items-center">
+        <div class="bg-blue-100 p-3 rounded-full mr-4">
+          <i class="fas fa-bullhorn text-blue-500 text-xl"></i>
+        </div>
+        <div>
+          <p class="text-2xl font-bold" id="totalAnnouncements">8</p>
+          <p class="text-gray-600">Active Announcements</p>
+        </div>
       </div>
-      <div class="p-6">
-        <form id="announcementForm">
-          <div class="space-y-4">
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">Title*</label>
-              <input type="text" class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Enter announcement title" required>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Priority*</label>
-                <select class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required>
-                  <option value="low">Low</option>
-                  <option value="medium" selected>Medium</option>
-                  <option value="high">High</option>
-                </select>
-              </div>
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Audience*</label>
-                <select class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required>
-                  <option value="all">All Users</option>
-                  <option value="students">Students Only</option>
-                  <option value="instructors">Instructors Only</option>
-                  <option value="specific">Specific Group</option>
-                </select>
-              </div>
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">Content*</label>
-              <textarea rows="6" class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your announcement here..." required></textarea>
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">Schedule</label>
-              <div class="flex items-center space-x-4">
-                <label class="inline-flex items-center">
-                  <input type="radio" name="schedule" class="form-radio text-blue-500" checked>
-                  <span class="ml-2">Send Now</span>
-                </label>
-                <label class="inline-flex items-center">
-                  <input type="radio" name="schedule" class="form-radio text-blue-500">
-                  <span class="ml-2">Schedule for Later</span>
-                </label>
-                <input type="datetime-local" class="border rounded-lg px-3 py-2 ml-2" disabled>
-              </div>
-            </div>
-          </div>
-        </form>
+      <div class="bg-white rounded-lg shadow border border-gray-200 p-6 flex items-center">
+        <div class="bg-green-100 p-3 rounded-full mr-4">
+          <i class="fas fa-clock text-green-500 text-xl"></i>
+        </div>
+        <div>
+          <p class="text-2xl font-bold" id="scheduledAnnouncements">3</p>
+          <p class="text-gray-600">Scheduled</p>
+        </div>
       </div>
-      <div class="flex justify-end space-x-3 border-t px-6 py-4">
-        <button onclick="closeNewAnnouncementModal()" class="px-4 py-2 border rounded-lg text-gray-700 hover:bg-gray-50">Cancel</button>
-        <button onclick="saveAnnouncement()" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">Publish Announcement</button>
+      <div class="bg-white rounded-lg shadow border border-gray-200 p-6 flex items-center">
+        <div class="bg-purple-100 p-3 rounded-full mr-4">
+          <i class="fas fa-users text-purple-500 text-xl"></i>
+        </div>
+        <div>
+          <p class="text-2xl font-bold">1,256</p>
+          <p class="text-gray-600">Views Last Week</p>
+        </div>
       </div>
     </div>
-  </div>
-</main>
 
-<script>
-  // Announcement functionality
-  function openNewAnnouncementModal() {
-    document.getElementById('newAnnouncementModal').classList.remove('hidden');
-  }
-  
-  function closeNewAnnouncementModal() {
-    document.getElementById('newAnnouncementModal').classList.add('hidden');
-  }
-  
-  function saveAnnouncement() {
-    // Add validation and save logic here
-    alert('Announcement published successfully!');
-    closeNewAnnouncementModal();
-  }
-  
-  // Logout button
-  document.getElementById('logoutBtn').addEventListener('click', function() {
-    alert('Logging out...');
-    // In a real app, this would redirect to logout
-    // window.location.href = '/logout';
-  });
-  
-  // Schedule radio button toggle
-  document.querySelectorAll('input[name="schedule"]').forEach(radio => {
-    radio.addEventListener('change', function() {
-      const datetimeInput = document.querySelector('input[type="datetime-local"]');
-      datetimeInput.disabled = !this.value === 'later';
+    <!-- Announcement Categories -->
+    <div class="flex space-x-2 mb-6 overflow-x-auto pb-2">
+      <button onclick="filterAnnouncements('all')" class="px-4 py-2 bg-blue-500 text-white rounded-full text-sm font-medium active-category" id="filter-all">
+        All Announcements
+      </button>
+      <button onclick="filterAnnouncements('general')" class="px-4 py-2 bg-white border border-blue-500 text-blue-500 rounded-full text-sm font-medium hover:bg-blue-50" id="filter-general">
+        General
+      </button>
+      <button onclick="filterAnnouncements('course')" class="px-4 py-2 bg-white border border-blue-500 text-blue-500 rounded-full text-sm font-medium hover:bg-blue-50" id="filter-course">
+        Course Updates
+      </button>
+      <button onclick="filterAnnouncements('event')" class="px-4 py-2 bg-white border border-blue-500 text-blue-500 rounded-full text-sm font-medium hover:bg-blue-50" id="filter-event">
+        Events
+      </button>
+      <button onclick="filterAnnouncements('maintenance')" class="px-4 py-2 bg-white border border-blue-500 text-blue-500 rounded-full text-sm font-medium hover:bg-blue-50" id="filter-maintenance">
+        Maintenance
+      </button>
+    </div>
+
+    <!-- Announcement List -->
+    <div class="bg-white rounded-lg shadow border border-gray-200 overflow-hidden">
+      <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-50">
+            <tr>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Schedule</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Views</th>
+              <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200" id="announcementsTableBody">
+            <!-- Announcements will be dynamically inserted here -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Announcement Modal -->
+    <div id="announcementModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+      <div class="bg-white rounded-lg shadow-xl w-full max-w-3xl">
+        <div class="flex justify-between items-center border-b px-6 py-4">
+          <h3 class="text-lg font-bold" id="modalTitle">Create New Announcement</h3>
+          <button onclick="closeModal()" class="text-gray-500 hover:text-gray-700">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="p-6">
+          <form id="announcementForm">
+            <div class="space-y-6">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1">Title*</label>
+                  <input type="text" id="announcementTitle" class="w-full border rounded-lg px-3 py-2" required>
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1">Category*</label>
+                  <select id="announcementCategory" class="w-full border rounded-lg px-3 py-2" required>
+                    <option value="">Select a category</option>
+                    <option value="general">General</option>
+                    <option value="course">Course Update</option>
+                    <option value="event">Event</option>
+                    <option value="maintenance">Maintenance</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+              </div>
+              
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Content*</label>
+                <textarea id="announcementContent" rows="5" class="w-full border rounded-lg px-3 py-2" required></textarea>
+              </div>
+              
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1">Status*</label>
+                  <select id="announcementStatus" class="w-full border rounded-lg px-3 py-2" required>
+                    <option value="published">Published</option>
+                    <option value="scheduled">Scheduled</option>
+                    <option value="draft">Draft</option>
+                    <option value="archived">Archived</option>
+                  </select>
+                </div>
+                <div id="scheduleField" class="hidden">
+                  <label class="block text-sm font-medium text-gray-700 mb-1">Publish Date & Time*</label>
+                  <input type="text" id="announcementSchedule" class="flatpickr-input" placeholder="Select date and time">
+                </div>
+              </div>
+              
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1">Target Audience</label>
+                  <select id="announcementAudience" class="w-full border rounded-lg px-3 py-2">
+                    <option value="all">All Users</option>
+                    <option value="students">Students Only</option>
+                    <option value="instructors">Instructors Only</option>
+                    <option value="specific">Specific Course(s)</option>
+                  </select>
+                </div>
+                <div id="specificCoursesField" class="hidden">
+                  <label class="block text-sm font-medium text-gray-700 mb-1">Select Courses</label>
+                  <select multiple id="announcementCourses" class="w-full border rounded-lg px-3 py-2 h-[100px]">
+                    <option value="1">Web Development Bootcamp</option>
+                    <option value="2">Artificial Intelligence Fundamentals</option>
+                    <option value="3">Data Science with Python</option>
+                    <option value="4">Robotics Engineering</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Featured Image</label>
+                <div class="mt-1 flex items-center">
+                  <div class="inline-block h-32 w-full rounded-md overflow-hidden bg-gray-100" id="announcementImagePreview">
+                    <svg class="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
+                  </div>
+                  <input type="file" id="announcementImageUpload" class="hidden" accept="image/*">
+                  <button type="button" onclick="document.getElementById('announcementImageUpload').click()" class="ml-5 bg-white border border-gray-300 rounded-md shadow-sm py-2 px-3 text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    Change Image
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="flex justify-end space-x-3 border-t px-6 py-4">
+          <button onclick="closeModal()" class="px-4 py-2 border rounded-lg text-gray-700 hover:bg-gray-50">Cancel</button>
+          <button onclick="saveAnnouncement()" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600" id="saveAnnouncementBtn">Create Announcement</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+      <div class="bg-white rounded-lg shadow-xl w-full max-w-md">
+        <div class="flex justify-between items-center border-b px-6 py-4">
+          <h3 class="text-lg font-bold">Confirm Deletion</h3>
+          <button onclick="closeDeleteModal()" class="text-gray-500 hover:text-gray-700">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="p-6">
+          <p class="text-gray-700">Are you sure you want to delete this announcement? This action cannot be undone.</p>
+          <input type="hidden" id="announcementToDelete">
+        </div>
+        <div class="flex justify-end space-x-3 border-t px-6 py-4">
+          <button onclick="closeDeleteModal()" class="px-4 py-2 border rounded-lg text-gray-700 hover:bg-gray-50">Cancel</button>
+          <button onclick="deleteAnnouncement()" class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600">Delete Announcement</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script>
+    // Sample announcement data
+    let announcements = [
+      {
+        id: 1,
+        title: "Platform Maintenance Scheduled",
+        category: "maintenance",
+        content: "We'll be performing scheduled maintenance on the platform this Saturday from 2:00 AM to 4:00 AM UTC. The platform will be unavailable during this time.",
+        status: "published",
+        schedule: null,
+        audience: "all",
+        courses: [],
+        views: 842,
+        image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=765&q=80",
+        createdAt: "2023-06-15T10:30:00"
+      },
+      {
+        id: 2,
+        title: "New Web Development Course Available",
+        category: "course",
+        content: "We're excited to announce our new Advanced React course is now available! Learn React hooks, context API, and advanced state management techniques.",
+        status: "published",
+        schedule: null,
+        audience: "students",
+        courses: [1],
+        views: 356,
+        image: "https://images.unsplash.com/photo-1587620962725-abab7fe55159?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1631&q=80",
+        createdAt: "2023-06-10T09:15:00"
+      },
+      {
+        id: 3,
+        title: "Summer Coding Challenge",
+        category: "event",
+        content: "Participate in our annual Summer Coding Challenge starting July 1st. Win prizes and showcase your skills! Registration opens next week.",
+        status: "scheduled",
+        schedule: "2023-06-20T08:00:00",
+        audience: "all",
+        courses: [],
+        views: 0,
+        image: "https://images.unsplash.com/photo-1551033406-611cf9a28f67?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80",
+        createdAt: "2023-06-05T14:20:00"
+      },
+      {
+        id: 4,
+        title: "Instructor Training Workshop",
+        category: "event",
+        content: "All instructors are invited to a training workshop on June 25th at 3:00 PM UTC. We'll cover new platform features and teaching methodologies.",
+        status: "scheduled",
+        schedule: "2023-06-25T15:00:00",
+        audience: "instructors",
+        courses: [],
+        views: 0,
+        image: "https://images.unsplash.com/photo-1524179091875-bf99a9a6af57?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80",
+        createdAt: "2023-06-03T11:45:00"
+      },
+      {
+        id: 5,
+        title: "New Forum Features Released",
+        category: "general",
+        content: "We've added new features to the community forum including markdown support, code snippets, and improved search functionality.",
+        status: "published",
+        schedule: null,
+        audience: "all",
+        courses: [],
+        views: 512,
+        image: "https://images.unsplash.com/photo-1547658719-da2b51169166?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=764&q=80",
+        createdAt: "2023-05-28T13:10:00"
+      },
+      {
+        id: 6,
+        title: "Data Science Course Update",
+        category: "course",
+        content: "The Data Science with Python course has been updated with new content on deep learning and natural language processing.",
+        status: "published",
+        schedule: null,
+        audience: "specific",
+        courses: [3],
+        views: 187,
+        image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+        createdAt: "2023-05-25T16:30:00"
+      },
+      {
+        id: 7,
+        title: "Holiday Schedule",
+        category: "general",
+        content: "The FAMA platform will have reduced support staff during the holiday period from December 24th to January 2nd.",
+        status: "draft",
+        schedule: null,
+        audience: "all",
+        courses: [],
+        views: 0,
+        image: "https://images.unsplash.com/photo-1513889961551-628c1e5e2ee9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+        createdAt: "2023-05-20T10:00:00"
+      },
+      {
+        id: 8,
+        title: "Robotics Competition Winners",
+        category: "event",
+        content: "Congratulations to the winners of our annual Robotics Competition! Check out their amazing projects in the community showcase.",
+        status: "published",
+        schedule: null,
+        audience: "all",
+        courses: [],
+        views: 298,
+        image: "https://images.unsplash.com/photo-1593508512255-86ab42a8e620?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1478&q=80",
+        createdAt: "2023-05-15T14:45:00"
+      }
+    ];
+
+    // Current announcement being edited
+    let currentAnnouncementId = null;
+    let currentFilter = 'all';
+    let flatpickrInstance = null;
+
+    // Initialize the page
+    document.addEventListener('DOMContentLoaded', function() {
+      loadAnnouncements();
+      setupEventListeners();
+      updateStats();
+      
+      // Initialize date picker
+      flatpickrInstance = flatpickr("#announcementSchedule", {
+        enableTime: true,
+        dateFormat: "Y-m-d H:i",
+        minDate: "today",
+        time_24hr: true
+      });
     });
-  });
-</script>
+
+    // Load announcements into the table
+    function loadAnnouncements(filter = 'all') {
+      const tableBody = document.getElementById('announcementsTableBody');
+      tableBody.innerHTML = '';
+      
+      let filteredAnnouncements = announcements;
+      if (filter !== 'all') {
+        filteredAnnouncements = announcements.filter(announcement => announcement.category === filter);
+      }
+      
+      // Sort by status (scheduled first, then published, then others)
+      filteredAnnouncements.sort((a, b) => {
+        const statusOrder = {scheduled: 1, published: 2, draft: 3, archived: 4};
+        return statusOrder[a.status] - statusOrder[b.status] || new Date(b.createdAt) - new Date(a.createdAt);
+      });
+      
+      filteredAnnouncements.forEach(announcement => {
+        const row = document.createElement('tr');
+        row.className = 'hover:bg-gray-50';
+        
+        const statusClass = getStatusClass(announcement.status);
+        const categoryClass = getCategoryClass(announcement.category);
+        
+        row.innerHTML = `
+          <td class="px-6 py-4 whitespace-nowrap">
+            <div class="flex items-center">
+              <div class="flex-shrink-0 h-10 w-10">
+                <img class="h-10 w-10 rounded-md object-cover" src="${announcement.image}" alt="${announcement.title}">
+              </div>
+              <div class="ml-4">
+                <div class="text-sm font-medium text-gray-900">${announcement.title}</div>
+                <div class="text-sm text-gray-500">${formatDate(announcement.createdAt)}</div>
+              </div>
+            </div>
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap">
+            <span class="${categoryClass} px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full">
+              ${formatCategory(announcement.category)}
+            </span>
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap">
+            <span class="${statusClass} px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full">
+              ${announcement.status.charAt(0).toUpperCase() + announcement.status.slice(1)}
+            </span>
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+            ${announcement.schedule ? formatDateTime(announcement.schedule) : 'Immediate'}
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+            ${announcement.views}
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+            <button onclick="editAnnouncement(${announcement.id})" class="text-blue-600 hover:text-blue-900 mr-3">
+              <i class="fas fa-edit"></i>
+            </button>
+            <button onclick="confirmDeleteAnnouncement(${announcement.id})" class="text-red-600 hover:text-red-900">
+              <i class="fas fa-trash"></i>
+            </button>
+          </td>
+        `;
+        tableBody.appendChild(row);
+      });
+    }
+
+    // Format date for display
+    function formatDate(dateString) {
+      const date = new Date(dateString);
+      return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+    }
+
+    // Format datetime for display
+    function formatDateTime(dateTimeString) {
+      const date = new Date(dateTimeString);
+      return date.toLocaleString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    }
+
+    // Format category for display
+    function formatCategory(category) {
+      const categoryMap = {
+        'general': 'General',
+        'course': 'Course Update',
+        'event': 'Event',
+        'maintenance': 'Maintenance',
+        'other': 'Other'
+      };
+      return categoryMap[category] || category;
+    }
+
+    // Get CSS class for status badge
+    function getStatusClass(status) {
+      const classMap = {
+        'published': 'bg-green-100 text-green-800',
+        'scheduled': 'bg-blue-100 text-blue-800',
+        'draft': 'bg-yellow-100 text-yellow-800',
+        'archived': 'bg-gray-100 text-gray-800'
+      };
+      return classMap[status] || 'bg-gray-100 text-gray-800';
+    }
+
+    // Get CSS class for category badge
+    function getCategoryClass(category) {
+      const classMap = {
+        'general': 'bg-purple-100 text-purple-800',
+        'course': 'bg-indigo-100 text-indigo-800',
+        'event': 'bg-pink-100 text-pink-800',
+        'maintenance': 'bg-orange-100 text-orange-800',
+        'other': 'bg-gray-100 text-gray-800'
+      };
+      return classMap[category] || 'bg-gray-100 text-gray-800';
+    }
+
+    // Update statistics
+    function updateStats() {
+      document.getElementById('totalAnnouncements').textContent = 
+        announcements.filter(a => a.status === 'published' || a.status === 'scheduled').length;
+      
+      document.getElementById('scheduledAnnouncements').textContent = 
+        announcements.filter(a => a.status === 'scheduled').length;
+    }
+
+    // Filter announcements by category
+    function filterAnnouncements(category) {
+      currentFilter = category;
+      loadAnnouncements(category);
+      
+      // Update active category button
+      document.querySelectorAll('[id^="filter-"]').forEach(btn => {
+        btn.classList.remove('active-category', 'bg-blue-500', 'text-white');
+        btn.classList.add('bg-white', 'border', 'border-blue-500', 'text-blue-500');
+      });
+      
+      const activeBtn = document.getElementById(`filter-${category}`);
+      if (activeBtn) {
+        activeBtn.classList.add('active-category', 'bg-blue-500', 'text-white');
+        activeBtn.classList.remove('bg-white', 'border', 'text-blue-500');
+      }
+    }
+
+    // Open modal to add new announcement
+    function openAnnouncementModal() {
+      currentAnnouncementId = null;
+      document.getElementById('modalTitle').textContent = 'Create New Announcement';
+      document.getElementById('saveAnnouncementBtn').textContent = 'Create Announcement';
+      document.getElementById('announcementForm').reset();
+      document.getElementById('announcementImagePreview').innerHTML = `
+        <svg class="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+        </svg>
+      `;
+      document.getElementById('scheduleField').classList.add('hidden');
+      document.getElementById('specificCoursesField').classList.add('hidden');
+      
+      // Reset flatpickr
+      if (flatpickrInstance) {
+        flatpickrInstance.clear();
+      }
+      
+      document.getElementById('announcementModal').classList.remove('hidden');
+    }
+
+    // Edit existing announcement
+    function editAnnouncement(id) {
+      const announcement = announcements.find(a => a.id === id);
+      if (!announcement) return;
+
+      currentAnnouncementId = id;
+      document.getElementById('modalTitle').textContent = 'Edit Announcement';
+      document.getElementById('saveAnnouncementBtn').textContent = 'Save Changes';
+      
+      // Fill form with announcement data
+      document.getElementById('announcementTitle').value = announcement.title;
+      document.getElementById('announcementCategory').value = announcement.category;
+      document.getElementById('announcementContent').value = announcement.content;
+      document.getElementById('announcementStatus').value = announcement.status;
+      document.getElementById('announcementAudience').value = announcement.audience;
+      
+      // Handle schedule field
+      const scheduleField = document.getElementById('scheduleField');
+      if (announcement.status === 'scheduled') {
+        scheduleField.classList.remove('hidden');
+        if (flatpickrInstance && announcement.schedule) {
+          flatpickrInstance.setDate(announcement.schedule);
+        }
+      } else {
+        scheduleField.classList.add('hidden');
+      }
+      
+      // Handle specific courses field
+      const specificCoursesField = document.getElementById('specificCoursesField');
+      if (announcement.audience === 'specific') {
+        specificCoursesField.classList.remove('hidden');
+        const coursesSelect = document.getElementById('announcementCourses');
+        Array.from(coursesSelect.options).forEach(option => {
+          option.selected = announcement.courses.includes(parseInt(option.value));
+        });
+      } else {
+        specificCoursesField.classList.add('hidden');
+      }
+      
+      // Set announcement image preview
+      document.getElementById('announcementImagePreview').innerHTML = `
+        <img src="${announcement.image}" class="h-full w-full object-cover" alt="${announcement.title}">
+      `;
+      
+      document.getElementById('announcementModal').classList.remove('hidden');
+    }
+
+    // Save announcement (add new or update existing)
+    function saveAnnouncement() {
+      const form = document.getElementById('announcementForm');
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      const status = document.getElementById('announcementStatus').value;
+      const schedule = status === 'scheduled' ? document.getElementById('announcementSchedule').value : null;
+      
+      if (status === 'scheduled' && !schedule) {
+        alert('Please select a schedule date and time for scheduled announcements');
+        return;
+      }
+
+      const audience = document.getElementById('announcementAudience').value;
+      const courses = audience === 'specific' ? 
+        Array.from(document.getElementById('announcementCourses').selectedOptions).map(opt => parseInt(opt.value)) : 
+        [];
+
+      const announcementData = {
+        title: document.getElementById('announcementTitle').value,
+        category: document.getElementById('announcementCategory').value,
+        content: document.getElementById('announcementContent').value,
+        status: status,
+        schedule: schedule,
+        audience: audience,
+        courses: courses,
+        views: 0,
+        image: document.getElementById('announcementImagePreview').querySelector('img') ? 
+               document.getElementById('announcementImagePreview').querySelector('img').src : 
+               'https://images.unsplash.com/photo-1546410531-bb4caa6b424d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80',
+        createdAt: new Date().toISOString()
+      };
+
+      if (currentAnnouncementId) {
+        // Update existing announcement (preserve views)
+        const index = announcements.findIndex(a => a.id === currentAnnouncementId);
+        if (index !== -1) {
+          announcementData.views = announcements[index].views;
+          announcements[index] = { ...announcements[index], ...announcementData };
+        }
+      } else {
+        // Add new announcement
+        const newId = announcements.length > 0 ? Math.max(...announcements.map(a => a.id)) + 1 : 1;
+        announcements.push({ id: newId, ...announcementData });
+      }
+
+      closeModal();
+      loadAnnouncements(currentFilter);
+      updateStats();
+      alert(`Announcement ${currentAnnouncementId ? 'updated' : 'created'} successfully!`);
+    }
+
+    // Confirm before deleting
+    function confirmDeleteAnnouncement(id) {
+      document.getElementById('announcementToDelete').value = id;
+      document.getElementById('deleteModal').classList.remove('hidden');
+    }
+
+    // Delete announcement
+    function deleteAnnouncement() {
+      const id = parseInt(document.getElementById('announcementToDelete').value);
+      announcements = announcements.filter(a => a.id !== id);
+      closeDeleteModal();
+      loadAnnouncements(currentFilter);
+      updateStats();
+      alert('Announcement deleted successfully!');
+    }
+
+    // Close modals
+    function closeModal() {
+      document.getElementById('announcementModal').classList.add('hidden');
+    }
+
+    function closeDeleteModal() {
+      document.getElementById('deleteModal').classList.add('hidden');
+    }
+
+    // Set up event listeners
+    function setupEventListeners() {
+      // Announcement image upload
+      document.getElementById('announcementImageUpload').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function(event) {
+            document.getElementById('announcementImagePreview').innerHTML = `
+              <img src="${event.target.result}" class="h-full w-full object-cover" alt="Announcement preview">
+            `;
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+
+      // Status change handler
+      document.getElementById('announcementStatus').addEventListener('change', function() {
+        const scheduleField = document.getElementById('scheduleField');
+        if (this.value === 'scheduled') {
+          scheduleField.classList.remove('hidden');
+        } else {
+          scheduleField.classList.add('hidden');
+        }
+      });
+
+      // Audience change handler
+      document.getElementById('announcementAudience').addEventListener('change', function() {
+        const specificCoursesField = document.getElementById('specificCoursesField');
+        if (this.value === 'specific') {
+          specificCoursesField.classList.remove('hidden');
+        } else {
+          specificCoursesField.classList.add('hidden');
+        }
+      });
+
+      // Logout button
+      document.getElementById('logoutBtn').addEventListener('click', function() {
+        alert('Logging out...');
+        // In a real app, this would redirect to logout
+        // window.location.href = '/logout';
+      });
+    }
+  </script>
 </body>
 </html>
