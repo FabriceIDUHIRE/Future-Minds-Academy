@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Announcements | FAMA Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+    ::-webkit-scrollbar-thumb {
+      background-color: rgb(59 130 246);
+      border-radius: 10px;
+      border: 2px solid #f1f1f1;
+    }
+    .active-nav {
+      background-color: rgb(239 246 255);
+      border-left: 4px solid rgb(59 130 246);
+    }
+    .announcement-card {
+      transition: all 0.2s ease;
+    }
+    .announcement-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+    .priority-high {
+      border-left: 4px solid #ef4444;
+    }
+    .priority-medium {
+      border-left: 4px solid #f59e0b;
+    }
+    .priority-low {
+      border-left: 4px solid #10b981;
+    }
+    .unread-dot {
+      width: 8px;
+      height: 8px;
+      background-color: #3b82f6;
+      border-radius: 50%;
+      display: inline-block;
+    }
+  </style>
+</head>
+<body class="bg-white text-gray-800 font-sans">
+
+<!-- Sidebar -->
+<aside class="fixed top-0 left-0 w-64 h-screen bg-white shadow-lg flex flex-col border-r border-gray-200">
+  <div class="flex items-center justify-center h-20 border-b border-gray-200 px-6">
+    <h1 class="text-2xl font-extrabold text-blue-500 tracking-wide">FAMA Dashboard</h1>
+  </div>
+  <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
+    <a href="../dash.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">📊 Dashboard</a>
+    <a href="students.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">👥 Students</a>
+    <a href="instructors.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">👩‍🏫 Instructors</a>
+    <a href="courses.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">📚 Courses</a>
+    <a href="events.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">🗓️ Events</a>
+    <a href="quizzes.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">🧪 Quizzes / Challenges</a>
+    <a href="certificates.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">🎓 Certificates</a>
+    <a href="forum.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">💬 Forum / Community</a>
+    <a href="announcements.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold active-nav">📢 Announcements</a>
+    <a href="reports.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">📈 Reports</a>
+    <a href="settings.html" class="block px-4 py-3 rounded text-blue-500 hover:bg-blue-50 transition font-semibold">⚙️ Settings</a>
+  </nav>
+  <div class="px-4 py-4 border-t border-gray-200">
+    <button id="logoutBtn" class="w-full bg-[#FACC15] text-gray-900 py-2 rounded font-bold hover:bg-[#EAB308] transition">
+      Logout
+    </button>
+  </div>
+</aside>
+
+<main class="ml-64 min-h-screen p-8">
+  <header class="flex flex-col sm:flex-row justify-between items-center mb-8">
+    <div>
+      <h1 class="text-3xl font-bold">Announcements</h1>
+      <p class="text-gray-600 mt-2">Manage and create important announcements for your community</p>
+    </div>
+    <button onclick="openNewAnnouncementModal()" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center mt-4 sm:mt-0 transition-all shadow-md hover:shadow-lg">
+      <i class="fas fa-plus mr-2"></i> New Announcement
+    </button>
+  </header>
+
+  <!-- Stats Cards -->
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
+    <div class="bg-white rounded-lg shadow border border-gray-200 p-6 flex items-center">
+      <div class="bg-blue-100 p-3 rounded-full mr-4">
+        <i class="fas fa-bullhorn text-blue-500 text-xl"></i>
+      </div>
+      <div>
+        <p class="text-2xl font-bold">24</p>
+        <p class="text-gray-600">Active Announcements</p>
+      </div>
+    </div>
+    <div class="bg-white rounded-lg shadow border border-gray-200 p-6 flex items-center">
+      <div class="bg-green-100 p-3 rounded-full mr-4">
+        <i class="fas fa-eye text-green-500 text-xl"></i>
+      </div>
+      <div>
+        <p class="text-2xl font-bold">87%</p>
+        <p class="text-gray-600">View Rate</p>
+      </div>
+    </div>
+    <div class="bg-white rounded-lg shadow border border-gray-200 p-6 flex items-center">
+      <div class="bg-purple-100 p-3 rounded-full mr-4">
+        <i class="fas fa-exclamation-triangle text-purple-500 text-xl"></i>
+      </div>
+      <div>
+        <p class="text-2xl font-bold">5</p>
+        <p class="text-gray-600">High Priority</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Announcement Filters -->
+  <div class="bg-white rounded-lg shadow border border-gray-200 p-4 mb-6 flex flex-wrap items-center justify-between">
+    <div class="flex space-x-2 mb-2 sm:mb-0">
+      <button class="px-3 py-1 bg-blue-500 text-white rounded-lg text-sm font-medium">All</button>
+      <button class="px-3 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-sm">Unread</button>
+      <button class="px-3 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-sm">Important</button>
+      <button class="px-3 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-sm">Archived</button>
+    </div>
+    <div class="relative">
+      <input type="text" placeholder="Search announcements..." class="border rounded-lg px-3 py-1 pl-8 text-sm">
+      <i class="fas fa-search absolute left-3 top-2 text-gray-400"></i>
+    </div>
+  </div>
+
+  <!-- Announcement List -->
+  <div class="space-y-4">
+    <!-- Announcement 1 -->
+    <div class="announcement-card bg-white rounded-lg shadow border border-gray-200 p-6 priority-high">
+      <div class="flex justify-between items-start mb-3">
+        <div class="flex items-center">
+          <span class="unread-dot mr-2"></span>
+          <h3 class="font-bold text-lg text-gray-800">System Maintenance Scheduled</h3>
+          <span class="ml-3 bg-red-100 text-red-800 text-xs px-2 py-1 rounded-full">High Priority</span>
+        </div>
+        <div class="text-sm text-gray-500">Today, 10:30 AM</div>
+      </div>
+      <p class="text-gray-600 mb-4">We'll be performing scheduled maintenance this Saturday from 2:00 AM to 6:00 AM UTC. The platform will be unavailable during this time. Please plan your activities accordingly.</p>
+      <div class="flex items-center justify-between">
+        <div class="flex items-center text-sm text-gray-500">
+          <img src="https://randomuser.me/api/portraits/men/32.jpg" class="w-6 h-6 rounded-full mr-2" alt="Admin">
+          <span>Posted by Admin</span>
+          <span class="mx-2">•</span>
+          <span>Sent to All Users</span>
+        </div>
+        <div class="flex space-x-2">
+          <button class="text-blue-500 hover:text-blue-700 text-sm font-medium">Mark as Read</button>
+          <button class="text-gray-500 hover:text-gray-700 text-sm font-medium">Archive</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Announcement 2 -->
+    <div class="announcement-card bg-white rounded-lg shadow border border-gray-200 p-6 priority-medium">
+      <div class="flex justify-between items-start mb-3">
+        <div class="flex items-center">
+          <h3 class="font-bold text-lg text-gray-800">New Course: Advanced Data Science</h3>
+          <span class="ml-3 bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-full">Medium Priority</span>
+        </div>
+        <div class="text-sm text-gray-500">Yesterday, 3:45 PM</div>
+      </div>
+      <p class="text-gray-600 mb-4">We're excited to announce our new Advanced Data Science course is now available! Enroll now to learn cutting-edge techniques in machine learning and data analysis.</p>
+      <div class="flex items-center justify-between">
+        <div class="flex items-center text-sm text-gray-500">
+          <img src="https://randomuser.me/api/portraits/women/44.jpg" class="w-6 h-6 rounded-full mr-2" alt="Instructor">
+          <span>Posted by Dr. Sarah Johnson</span>
+          <span class="mx-2">•</span>
+          <span>Sent to Data Science Students</span>
+        </div>
+        <div class="flex space-x-2">
+          <button class="text-blue-500 hover:text-blue-700 text-sm font-medium">View Details</button>
+          <button class="text-gray-500 hover:text-gray-700 text-sm font-medium">Archive</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Announcement 3 -->
+    <div class="announcement-card bg-white rounded-lg shadow border border-gray-200 p-6">
+      <div class="flex justify-between items-start mb-3">
+        <h3 class="font-bold text-lg text-gray-800">Community Meetup Next Week</h3>
+        <div class="text-sm text-gray-500">Jun 12, 2023</div>
+      </div>
+      <p class="text-gray-600 mb-4">Join us for our monthly community meetup next Thursday at 6:00 PM. This month we'll be discussing career growth in tech and featuring guest speaker Mark Williams from TechCorp.</p>
+      <div class="flex items-center justify-between">
+        <div class="flex items-center text-sm text-gray-500">
+          <img src="https://randomuser.me/api/portraits/men/75.jpg" class="w-6 h-6 rounded-full mr-2" alt="Moderator">
+          <span>Posted by Community Team</span>
+          <span class="mx-2">•</span>
+          <span>Sent to Active Members</span>
+        </div>
+        <div class="flex space-x-2">
+          <button class="text-blue-500 hover:text-blue-700 text-sm font-medium">RSVP</button>
+          <button class="text-gray-500 hover:text-gray-700 text-sm font-medium">Archive</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Announcement 4 -->
+    <div class="announcement-card bg-white rounded-lg shadow border border-gray-200 p-6 priority-low">
+      <div class="flex justify-between items-start mb-3">
+        <div class="flex items-center">
+          <h3 class="font-bold text-lg text-gray-800">Survey: Help Improve Our Platform</h3>
+          <span class="ml-3 bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">Low Priority</span>
+        </div>
+        <div class="text-sm text-gray-500">Jun 10, 2023</div>
+      </div>
+      <p class="text-gray-600 mb-4">We value your feedback! Please take 5 minutes to complete our user experience survey and help us make FAMA even better.</p>
+      <div class="flex items-center justify-between">
+        <div class="flex items-center text-sm text-gray-500">
+          <img src="https://randomuser.me/api/portraits/women/63.jpg" class="w-6 h-6 rounded-full mr-2" alt="Support">
+          <span>Posted by UX Team</span>
+          <span class="mx-2">•</span>
+          <span>Sent to All Users</span>
+        </div>
+        <div class="flex space-x-2">
+          <button class="text-blue-500 hover:text-blue-700 text-sm font-medium">Take Survey</button>
+          <button class="text-gray-500 hover:text-gray-700 text-sm font-medium">Archive</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pagination -->
+  <div class="mt-6 bg-white rounded-lg shadow border border-gray-200 p-4">
+    <nav class="flex items-center justify-between">
+      <button class="px-4 py-2 border rounded-lg text-gray-700 hover:bg-gray-50 disabled:opacity-50" disabled>
+        <i class="fas fa-chevron-left mr-2"></i> Previous
+      </button>
+      <div class="hidden sm:flex space-x-1">
+        <button class="px-4 py-2 bg-blue-500 text-white rounded-lg">1</button>
+        <button class="px-4 py-2 hover:bg-gray-100 rounded-lg">2</button>
+        <button class="px-4 py-2 hover:bg-gray-100 rounded-lg">3</button>
+        <span class="px-4 py-2">...</span>
+        <button class="px-4 py-2 hover:bg-gray-100 rounded-lg">5</button>
+      </div>
+      <button class="px-4 py-2 border rounded-lg text-gray-700 hover:bg-gray-50">
+        Next <i class="fas fa-chevron-right ml-2"></i>
+      </button>
+    </nav>
+  </div>
+
+  <!-- New Announcement Modal -->
+  <div id="newAnnouncementModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-lg shadow-xl w-full max-w-2xl">
+      <div class="flex justify-between items-center border-b px-6 py-4">
+        <h3 class="text-lg font-bold">Create New Announcement</h3>
+        <button onclick="closeNewAnnouncementModal()" class="text-gray-500 hover:text-gray-700">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="p-6">
+        <form id="announcementForm">
+          <div class="space-y-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Title*</label>
+              <input type="text" class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Enter announcement title" required>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Priority*</label>
+                <select class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required>
+                  <option value="low">Low</option>
+                  <option value="medium" selected>Medium</option>
+                  <option value="high">High</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Audience*</label>
+                <select class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required>
+                  <option value="all">All Users</option>
+                  <option value="students">Students Only</option>
+                  <option value="instructors">Instructors Only</option>
+                  <option value="specific">Specific Group</option>
+                </select>
+              </div>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Content*</label>
+              <textarea rows="6" class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your announcement here..." required></textarea>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Schedule</label>
+              <div class="flex items-center space-x-4">
+                <label class="inline-flex items-center">
+                  <input type="radio" name="schedule" class="form-radio text-blue-500" checked>
+                  <span class="ml-2">Send Now</span>
+                </label>
+                <label class="inline-flex items-center">
+                  <input type="radio" name="schedule" class="form-radio text-blue-500">
+                  <span class="ml-2">Schedule for Later</span>
+                </label>
+                <input type="datetime-local" class="border rounded-lg px-3 py-2 ml-2" disabled>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="flex justify-end space-x-3 border-t px-6 py-4">
+        <button onclick="closeNewAnnouncementModal()" class="px-4 py-2 border rounded-lg text-gray-700 hover:bg-gray-50">Cancel</button>
+        <button onclick="saveAnnouncement()" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">Publish Announcement</button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+  // Announcement functionality
+  function openNewAnnouncementModal() {
+    document.getElementById('newAnnouncementModal').classList.remove('hidden');
+  }
+  
+  function closeNewAnnouncementModal() {
+    document.getElementById('newAnnouncementModal').classList.add('hidden');
+  }
+  
+  function saveAnnouncement() {
+    // Add validation and save logic here
+    alert('Announcement published successfully!');
+    closeNewAnnouncementModal();
+  }
+  
+  // Logout button
+  document.getElementById('logoutBtn').addEventListener('click', function() {
+    alert('Logging out...');
+    // In a real app, this would redirect to logout
+    // window.location.href = '/logout';
+  });
+  
+  // Schedule radio button toggle
+  document.querySelectorAll('input[name="schedule"]').forEach(radio => {
+    radio.addEventListener('change', function() {
+      const datetimeInput = document.querySelector('input[type="datetime-local"]');
+      datetimeInput.disabled = !this.value === 'later';
+    });
+  });
+</script>
+</body>
+</html>
